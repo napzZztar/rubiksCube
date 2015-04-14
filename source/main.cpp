@@ -29,17 +29,6 @@ void drawColorCube(int x, int y, int z, int s){
     glVertex3i(x, y+s, z+s);
     glVertex3i(x+s, y+s, z+s);
     glEnd();
-
-    for (float i = z; i <= z+s; i+=0.05) {
-        glColor4f(i/s, (1-i)/s, 0.5, 1.0);
-        glBegin(GL_LINE_LOOP);
-        glVertex3f(x, y, i);
-        glVertex3f(x+s, y, i);
-        glVertex3f(x+s, y+s, i);
-        glVertex3f(x, y+s, i);
-        glEnd();
-    }
-
 }
 
 int main(int argc, char** argv){
@@ -68,6 +57,7 @@ void myDisplay(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
+
     glRotatef(spin, spin_x, spin_y, spin_z);
     drawColorCube(-2, -2, -2, 2);
 
@@ -85,7 +75,7 @@ void myDisplay(void){
 
 void spinDisplay(void){
 
-    spin = 20;
+    spin += spin_speed;
 
     if (spin>360.0) {
 
