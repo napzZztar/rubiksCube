@@ -16,25 +16,25 @@ void spinDisplay(void);
 
 void drawColorCube(int x, int y, int z, int s){
     glBegin(GL_TRIANGLE_STRIP);
-    glVertex2i(x, y);
-    glVertex2i(x+s, y);
-    glVertex2i(x, y+s);
-    glVertex2i(x+s, y+s);
+    glVertex2i(x   , y);
+    glVertex2i(x+s , y);
+    glVertex2i(x   , y+s);
+    glVertex2i(x+s , y+s);
     glEnd();
 
     glColor4f(0.5, 0.5, 0.0, 1.0);
     glBegin(GL_TRIANGLE_STRIP);
-    glVertex3i(x, y, z+s);
-    glVertex3i(x+s, y, z+s);
-    glVertex3i(x, y+s, z+s);
-    glVertex3i(x+s, y+s, z+s);
+    glVertex3i(x   , y   , z+s);
+    glVertex3i(x+s , y   , z+s);
+    glVertex3i(x   , y+s , z+s);
+    glVertex3i(x+s , y+s , z+s);
     glEnd();
 }
 
 int main(int argc, char** argv){
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-    glutInitWindowSize(1000, 1000);
+    glutInitWindowSize(1280, 720);
     glutInitWindowPosition(0,0);
     glutCreateWindow("Rubik's cube");
     init();
@@ -47,9 +47,9 @@ int main(int argc, char** argv){
 }
 
 void init(){
-    glClearColor(0, 0, 0, 0);
+    glClearColor(0, 0, 0, 1);
     glShadeModel(GL_SMOOTH);
-    glClearDepth(1.0f);
+    glClearDepth(0.0f);
     glEnable(GL_DEPTH_TEST);
 }
 
@@ -58,15 +58,58 @@ void myDisplay(void){
     glLoadIdentity();
 
 
+    glScalef(0.1, 0.1778, 0.1);
     glRotatef(spin, spin_x, spin_y, spin_z);
-    drawColorCube(-2, -2, -2, 2);
+    // drawColorCube(-2, -2, -2, 2);
 
-    glColor4f(1.0, 1.0, 1.0, .5);
-    glBegin(GL_TRIANGLE_STRIP);
-    glVertex3i(2, 2, 2);
-    glVertex3i(2, -2, 2);
-    glVertex3i(-2, -2, 2);
-    glVertex3i(-2, 2, 2);
+    glColor4f(1.0, 0.0, 0.0, 0.0);
+    glBegin(GL_POLYGON);
+    glVertex3f( 0.5  , 0.5  , 1.5);
+    glVertex3f( -0.5 , 0.5  , 1.5);
+    glVertex3f( -0.5 , -0.5 , 1.5);
+    glVertex3f( 0.5  , -0.5 , 1.5);
+    glEnd();
+
+
+    glColor4f(1.0, 0.5, 0.0, 0.0);
+    glBegin(GL_POLYGON);
+    glVertex3f( 0.5  , 0.5  , -1.5);
+    glVertex3f( -0.5 , 0.5  , -1.5);
+    glVertex3f( -0.5 , -0.5 , -1.5);
+    glVertex3f( 0.5  , -0.5 , -1.5);
+    glEnd();
+
+    glColor4f(0.0, 1.0, 0.0, 0.0);
+    glBegin(GL_POLYGON);
+    glVertex3f( 0.5  , 1.5  , 0.5);
+    glVertex3f( -0.5 , 1.5  , 0.5);
+    glVertex3f( -0.5 , 1.5 , -0.5);
+    glVertex3f( 0.5  , 1.5 , -0.5);
+    glEnd();
+
+
+    glColor4f(0.0, 0.0, 1.0, 0.0);
+    glBegin(GL_POLYGON);
+    glVertex3f( 0.5  , -1.5  , 0.5);
+    glVertex3f( -0.5 , -1.5  , 0.5);
+    glVertex3f( -0.5 , -1.5 , -0.5);
+    glVertex3f( 0.5  , -1.5 , -0.5);
+    glEnd();
+
+    glColor4f(1.0, 1.0, 1.0, 0.0);
+    glBegin(GL_POLYGON);
+    glVertex3f( 1.5 , 0.5  , 0.5);
+    glVertex3f( 1.5 , -0.5 , 0.5);
+    glVertex3f( 1.5 , -0.5 , -0.5);
+    glVertex3f( 1.5 , 0.5  , -0.5);
+    glEnd();
+
+    glColor4f(1.0, 1.0, 0.0, 0.0);
+    glBegin(GL_POLYGON);
+    glVertex3f( -1.5 , 0.5  , 0.5);
+    glVertex3f( -1.5 , -0.5 , 0.5);
+    glVertex3f( -1.5 , -0.5 , -0.5);
+    glVertex3f( -1.5 , 0.5  , -0.5);
     glEnd();
 
     glFlush();
