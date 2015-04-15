@@ -53,13 +53,11 @@ void init(){
 }
 
 void myDisplay(void){
-    part p[9];
-    part q[9];
-    for (int i = 0; i < 9; i++) {
-        p[i].init(1, i);
-    }
-    for (int i = 0; i < 9; i++) {
-        q[i].init(2, i);
+    part cube[7][9];
+    for (int i = 1; i < 7; i++) {
+        for (int j = 0; j < 9; j++) {
+            cube[i][j].init(i, j);
+        }
     }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -69,11 +67,12 @@ void myDisplay(void){
     glScalef(0.1, 0.1778, 0.1);
     glRotatef(spin, spin_x, spin_y, spin_z);
 
-    for (int i = 0; i < 9; i++) {
-        q[i].plot();
-    }
-    for (int i = 0; i < 9; i++) {
-        p[i].plot();
+    int seq[7] = {0,6,4,3,1,2,5};
+
+    for (int i = 6; i > 0; i--) {
+        for (int j = 0; j < 9; j++) {
+            cube[seq[i]][j].plot();
+        }
     }
 
     glFlush();
@@ -82,10 +81,9 @@ void myDisplay(void){
 
 void spinDisplay(void){
 
-    spin += spin_speed;
+    if(spin != 200)
+        spin++;
 
-    if (spin>360.0) 
-        spin = 0;
 
     glutPostRedisplay();
 }
