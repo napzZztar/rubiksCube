@@ -17,6 +17,8 @@ const float part::xNy[9][2][2] = {
     {{0.5  , 0.5}  , {1.48  , 1.48 }} ,
 };
 
+part cube[7][9];
+
 static GLfloat spin = 0.0;
 static GLfloat spin_speed = 1.0;
 
@@ -27,10 +29,10 @@ float spin_z = 1;
 void init();
 void myDisplay();
 void spinDisplay(void);
+void initCube();
 
 int main(int argc, char** argv){
-
-
+    initCube();
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(1280, 720);
@@ -53,13 +55,6 @@ void init(){
 }
 
 void myDisplay(void){
-    part cube[7][9];
-    for (int i = 1; i < 7; i++) {
-        for (int j = 0; j < 9; j++) {
-            cube[i][j].init(i, j);
-        }
-    }
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
@@ -83,7 +78,14 @@ void spinDisplay(void){
 
     if(spin != 200)
         spin++;
-
-
     glutPostRedisplay();
+}
+
+void initCube(){
+    for (int i = 1; i < 7; i++) {
+        for (int j = 0; j < 9; j++) {
+            cube[i][j].init(i, j);
+        }
+    }
+
 }
