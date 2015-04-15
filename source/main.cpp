@@ -23,8 +23,8 @@ static GLfloat spin = 0.0;
 static GLfloat spin_speed = 1.0;
 
 float spin_x = 1;
-float spin_y = 1;
-float spin_z = 1;
+float spin_y = 0.01;
+float spin_z = 0.01;
 
 void init();
 void myDisplay();
@@ -60,13 +60,20 @@ void myDisplay(void){
 
 
     glScalef(0.1, 0.1778, 0.1);
-    glRotatef(spin, spin_x, spin_y, spin_z);
 
     int seq[7] = {0,6,4,3,1,2,5};
 
-    for (int i = 6; i > 0; i--) {
+    for (int i = 0; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
+            if (( j==2|| j==5 || j==8 ) && i!=2) {
+                glPushMatrix();
+                glRotatef(spin, spin_x, spin_y, spin_z);
+            }
+
             cube[seq[i]][j].plot();
+
+            if (( j==2|| j==5 || j==8 ) && i!=2) 
+                glPopMatrix();
         }
     }
 
@@ -76,7 +83,7 @@ void myDisplay(void){
 
 void spinDisplay(void){
 
-    if(spin != 200)
+    if(spin != 90)
         spin++;
     glutPostRedisplay();
 }
