@@ -15,6 +15,8 @@ class part{
                // 5 = blue
                // 6 = green
 
+    static const float xNy[9][2];
+
     float lower_x;
     float lower_y;
     float upper_x;

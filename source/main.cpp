@@ -1,7 +1,11 @@
 #include <iostream>
 #include <GL/glut.h>
+#include "part.h"
 
 using namespace std;
+
+
+const float part::xNy[9][2] = {{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}};
 
 static GLfloat spin = 0.0;
 static GLfloat spin_speed = 2.0;
@@ -120,9 +124,8 @@ void spinDisplay(void){
 
     spin += spin_speed;
 
-    if (spin>360.0) {
+    if (spin>360.0) 
+        spin = 0;
 
-        spin -= 360.0;
-    }
     glutPostRedisplay();
 }
