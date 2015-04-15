@@ -15,7 +15,7 @@ class part{
                // 5 = blue
                // 6 = green
 
-    static const float xNy[9][2];
+    static const float xNy[9][2][2];
 
     float lower_x;
     float lower_y;
@@ -23,13 +23,13 @@ class part{
     float upper_y;
 
     public: 
-    part(float x1, float y1, float x2, float y2, int p){
+    part(int ps, int p){
         plane = p;
 
-        lower_x = x1;
-        lower_y = y1;
-        upper_x = x2;
-        upper_y = y2;
+        lower_x = xNy[ps][0][0];
+        lower_y = xNy[ps][0][1];
+        upper_x = xNy[ps][1][0];
+        upper_y = xNy[ps][1][1];
     }
 
     void plot(){
