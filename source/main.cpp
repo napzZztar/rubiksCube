@@ -53,7 +53,14 @@ void init(){
 }
 
 void myDisplay(void){
-    part p11(0, 1);
+    part p[9];
+    part q[9];
+    for (int i = 0; i < 9; i++) {
+        p[i].init(1, i);
+    }
+    for (int i = 0; i < 9; i++) {
+        q[i].init(2, i);
+    }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
@@ -62,57 +69,12 @@ void myDisplay(void){
     glScalef(0.1, 0.1778, 0.1);
     glRotatef(spin, spin_x, spin_y, spin_z);
 
-    glColor4f(1.0, 0.0, 0.0, 0.0);
-    glBegin(GL_POLYGON);
-    glVertex3f( 0.5  , 0.5  , 1.5);
-    glVertex3f( -0.5 , 0.5  , 1.5);
-    glVertex3f( -0.5 , -0.5 , 1.5);
-    glVertex3f( 0.5  , -0.5 , 1.5);
-    glEnd();
-
-
-    glColor4f(1.0, 0.5, 0.0, 0.0);
-    glBegin(GL_POLYGON);
-    glVertex3f( 0.5  , 0.5  , -1.5);
-    glVertex3f( -0.5 , 0.5  , -1.5);
-    glVertex3f( -0.5 , -0.5 , -1.5);
-    glVertex3f( 0.5  , -0.5 , -1.5);
-    glEnd();
-
-    glColor4f(0.0, 1.0, 0.0, 0.0);
-    glBegin(GL_POLYGON);
-    glVertex3f( 0.5  , 1.5  , 0.5);
-    glVertex3f( -0.5 , 1.5  , 0.5);
-    glVertex3f( -0.5 , 1.5 , -0.5);
-    glVertex3f( 0.5  , 1.5 , -0.5);
-    glEnd();
-
-
-    glColor4f(0.0, 0.0, 1.0, 0.0);
-    glBegin(GL_POLYGON);
-    glVertex3f( 0.5  , -1.5  , 0.5);
-    glVertex3f( -0.5 , -1.5  , 0.5);
-    glVertex3f( -0.5 , -1.5 , -0.5);
-    glVertex3f( 0.5  , -1.5 , -0.5);
-    glEnd();
-
-    glColor4f(1.0, 1.0, 1.0, 0.0);
-    glBegin(GL_POLYGON);
-    glVertex3f( 1.5 , 0.5  , 0.5);
-    glVertex3f( 1.5 , -0.5 , 0.5);
-    glVertex3f( 1.5 , -0.5 , -0.5);
-    glVertex3f( 1.5 , 0.5  , -0.5);
-    glEnd();
-
-    glColor4f(1.0, 1.0, 0.0, 0.0);
-    glBegin(GL_POLYGON);
-    glVertex3f( -1.5 , 0.5  , 0.5);
-    glVertex3f( -1.5 , -0.5 , 0.5);
-    glVertex3f( -1.5 , -0.5 , -0.5);
-    glVertex3f( -1.5 , 0.5  , -0.5);
-    glEnd();
-
-    p11.plot();
+    for (int i = 0; i < 9; i++) {
+        q[i].plot();
+    }
+    for (int i = 0; i < 9; i++) {
+        p[i].plot();
+    }
 
     glFlush();
     glutSwapBuffers();

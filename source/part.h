@@ -23,7 +23,9 @@ class part{
     float upper_y;
 
     public: 
-    part(int ps, int p){
+    part(){};
+
+    void init(int p, int ps){
         plane = p;
 
         lower_x = xNy[ps][0][0];
