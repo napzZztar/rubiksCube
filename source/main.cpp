@@ -20,12 +20,14 @@ const float part::xNy[9][2][2] = {
 part cube[7][9];
 
 static GLfloat spin = 0.0;
-static GLfloat spin_speed = 4.0;
+static GLfloat spin_speed = 6.0;
 
-float rate = 0.01;
+char move;
+
+float rate = 0.9;
 float spin_x = 1;
-float spin_y = 0.01;
-float spin_z = 0.01;
+float spin_y = 0;
+float spin_z = 0;
 
 void init();
 void myDisplay();
@@ -42,6 +44,9 @@ int main(int argc, char** argv){
     init();
     glutDisplayFunc(myDisplay);
     glutIdleFunc(spinDisplay);
+    glutKeyboardFunc(keyPress);
+    glutMouseFunc(mouseClick);
+
     glutMainLoop();
     glutSwapBuffers();
 
@@ -64,7 +69,7 @@ void myDisplay(void){
 
     int seq[7] = {0,6,4,3,1,2,5};
 
-    glRotatef(spin, 0.01, 0.01, 0.01);
+    glRotatef(20, 0.01, -0.01, 0.01);
     for (int i = 0; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
             if (( j==2|| j==5 || j==8 || i==5) && i!=2) {
@@ -84,19 +89,17 @@ void myDisplay(void){
 }
 
 void spinDisplay(void){
-    if(spin_speed > 0.5){
-        if(spin < 300)
-            spin_speed -= 0.001;
-        else{
-            spin_speed -= rate;
-            rate += 0.002;
-        }
-    }
+    // if(spin_speed > 0.5){
+    //     if(spin > 80){
+    //         spin_speed -= rate;
+    //         rate += 0.9;
+    //     }
+    // }
 
-    if(spin < 450)
+    if(spin < 90)
         spin += spin_speed;
     else
-        spin = 450;
+        spin = 90;
 
     glutPostRedisplay();
 }
@@ -107,4 +110,16 @@ void initCube(){
             cube[i][j].init(i, j);
         }
     }
+}
+
+void mouseClick(int button, int state, int x, int y){
+    switch (button) {
+        case GLUT_LEFT_BUTTON:
+            spin = 0;
+            rate=0.9;
+            break;
+    }
+}
+void keyPress(unsigned char key, int x, int y){
+
 }
