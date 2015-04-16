@@ -20,11 +20,11 @@ const float part::xNy[9][2][2] = {
 part cube[7][9];
 
 static GLfloat spin = 0.0;
-static GLfloat spin_speed = 6.0;
+static GLfloat spin_speed = 9.0;
 
 char move;
 
-float rate = 0.9;
+float rate = 2.0;
 float spin_x = 1;
 float spin_y = 0;
 float spin_z = 0;
@@ -54,10 +54,24 @@ int main(int argc, char** argv){
 }
 
 void init(){
+    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_shininess[] = { 100.0 };
+    GLfloat light_position[] = { 0.0, 0.0, 4.0, 1.0 };
+    GLfloat light_spot[] = { 0.0, 0.0, 0.0, 1.0 };
     glClearColor(0, 0, 0, 1);
     glShadeModel(GL_SMOOTH);
     glClearDepth(0.0f);
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_NORMALIZE);
+
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    glLightfv(GL_LIGHT0, GL_POSITION, light_spot);
 }
 
 void myDisplay(void){
@@ -69,18 +83,20 @@ void myDisplay(void){
 
     int seq[7] = {0,6,4,3,1,2,5};
 
-    glRotatef(20, 0.01, -0.01, 0.01);
+    glRotatef(spin, 0.01, -0.01, 0.01);
     for (int i = 0; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
+            glPushMatrix();
             if (( j==2|| j==5 || j==8 || i==5) && i!=2) {
-                glPushMatrix();
                 glRotatef(spin, spin_x, spin_y, spin_z);
             }
 
-            cube[seq[i]][j].plot();
+            if (( j==0|| j==3 || j==6 || i==2) && i!=5) {
+                glRotatef(-spin, spin_x, spin_y, spin_z);
+            }
 
-            if (( j==2|| j==5 || j==8 || i==5) && i!=2) 
-                glPopMatrix();
+            cube[seq[i]][j].plot();
+            glPopMatrix();
         }
     }
 
@@ -89,17 +105,18 @@ void myDisplay(void){
 }
 
 void spinDisplay(void){
-    // if(spin_speed > 0.5){
-    //     if(spin > 80){
-    //         spin_speed -= rate;
-    //         rate += 0.9;
-    //     }
-    // }
+    if(spin_speed > 0.5){
+        if(spin > 70){
+            spin_speed -= rate;
+            rate += 0.5;
+        }
+    }else
+        spin_speed = 0.5;
 
-    if(spin < 90)
+    if(spin < 360)
         spin += spin_speed;
     else
-        spin = 90;
+        spin = 0;
 
     glutPostRedisplay();
 }
@@ -115,11 +132,13 @@ void initCube(){
 void mouseClick(int button, int state, int x, int y){
     switch (button) {
         case GLUT_LEFT_BUTTON:
-            spin = 0;
-            rate=0.9;
+            spin = 0.0;
+            rate=2.0;
+            spin_speed = 9;
             break;
     }
 }
+
 void keyPress(unsigned char key, int x, int y){
 
 }
