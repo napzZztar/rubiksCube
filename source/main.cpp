@@ -20,7 +20,7 @@ const float part::xNy[9][2][2] = {
 part cube[7][9];
 
 static GLfloat spin = 0.0;
-static GLfloat spin_speed = 9.0;
+static GLfloat spin_speed = 2.0;
 
 char move;
 
@@ -83,16 +83,17 @@ void myDisplay(void){
 
     int seq[7] = {0,6,4,3,1,2,5};
 
-    glRotatef(spin, 0.01, -0.01, 0.01);
+    glRotatef(20, 0.01, -0.01, 0.01);
+    glRotatef(spin/8, 0.01, -0.01, 0.01);
     for (int i = 0; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
             glPushMatrix();
             if (( j==2|| j==5 || j==8 || i==5) && i!=2) {
                 glRotatef(spin, spin_x, spin_y, spin_z);
-            }
-
-            if (( j==0|| j==3 || j==6 || i==2) && i!=5) {
-                glRotatef(-spin, spin_x, spin_y, spin_z);
+            }else if (( j==0|| j==3 || j==6 || i==2) && i!=5) {
+                glRotatef(spin/4, spin_x, spin_y, spin_z);
+            }else{
+                glRotatef(spin/2, spin_x, spin_y, spin_z);
             }
 
             cube[seq[i]][j].plot();
@@ -105,15 +106,15 @@ void myDisplay(void){
 }
 
 void spinDisplay(void){
-    if(spin_speed > 0.5){
-        if(spin > 70){
-            spin_speed -= rate;
-            rate += 0.5;
-        }
-    }else
-        spin_speed = 0.5;
+    // if(spin_speed > 0.5){
+    //     if(spin > 70){
+    //         spin_speed -= rate;
+    //         rate += 0.5;
+    //     }
+    // }else
+    //     spin_speed = 0.5;
 
-    if(spin < 360)
+    if(spin <= 2880)
         spin += spin_speed;
     else
         spin = 0;
