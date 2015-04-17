@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 const float part::xNy[9][2][2] = {
     {{-1.5 , -1.5} , {-0.52 , -0.52}} ,
     {{-0.5 , -1.5} , {0.48  , -0.52}} ,
@@ -36,6 +35,7 @@ void initCube();
 void spinColck(void);
 void spinAntiClock(void);
 void keyPress(void);
+void setSpin(char ax, int rot);
 
 int main(int argc, char** argv){
     initCube();
@@ -165,16 +165,69 @@ void initCube(){
 }
 
 void keyPress(unsigned char key, int x, int y){
-    if (key == 'R') {
-            spin = 0.0;
-            rate=1.0;
-            spin_speed = 9;
-            glutIdleFunc(spinColck);
-    }else if (key == 'r') {
-            spin = 0.0;
-            rate=1.0;
-            spin_speed = 9;
-            glutIdleFunc(spinAntiClock);
+    switch (key) {
+        case 'R':
+            setSpin('x', 1);
+            break;
+        case 'r':
+            setSpin('x', 0);
+            break;
+        case 'F':
+            setSpin('z', 1);
+            break;
+        case 'f':
+            setSpin('z', 0);
+            break;
+        case 'B':
+            setSpin('z', 1);
+            break;
+        case 'b':
+            setSpin('z', 0);
+            break;
+        case 'L':
+            setSpin('x', 1);
+            break;
+        case 'l':
+            setSpin('x', 0);
+            break;
+        case 'D':
+            setSpin('y', 1);
+            break;
+        case 'd':
+            setSpin('y', 0);
+            break;
+        case 'U':
+            setSpin('y', 1);
+            break;
+        case 'u':
+            setSpin('y', 0);
+    }
+}
+
+void setSpin(char ax, int rot){
+    spin_x = 0;
+    spin_y = 0;
+    spin_z = 0;
+
+    switch (ax) {
+        case 'x':
+            spin_x = 1;
+            break;
+        case 'y':
+            spin_y = 1;
+            break;
+        case 'z':
+            spin_z = 1;
+            break;
     }
 
+    if (rot)
+        glutIdleFunc(spinColck);
+    else
+        glutIdleFunc(spinAntiClock);
+
+    spin = 0.0;
+    rate=1.0;
+    spin_speed = 9;
 }
+
