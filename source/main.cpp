@@ -28,7 +28,6 @@ float rate = 2.0;
 float spin_x = 1;
 float spin_y = 0;
 float spin_z = 0;
-float varx;
 
 void init();
 void myDisplay();
