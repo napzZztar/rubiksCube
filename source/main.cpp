@@ -60,6 +60,7 @@ void init(){ //magic don't touch
     GLfloat mat_shininess[] = { 110.0 };
     GLfloat light_position[] = { -0.1, 1.0, 2.5, 0.3 };
     GLfloat spot_direction[] = { 0.0, -0.8, -2.5 };
+    GLfloat light_color[] = { 1.0, 0.9451, 0.6667, 1.0 };
     glClearColor(0, 0, 0, 0);
     glShadeModel(GL_SMOOTH);
     glClearDepth(1.0f);
@@ -79,6 +80,7 @@ void init(){ //magic don't touch
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 18.0);
     glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color);
     glPopMatrix();
 }
 
