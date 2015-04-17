@@ -16,12 +16,14 @@ const float part::xNy[9][2][2] = {
     {{0.5  , 0.5}  , {1.48  , 1.48 }} ,
 };
 
+int side[4][3] = {{0,1,2}, {6,7,8}, {2,5,8}, {0,3,6}};
+
 part cube[7][9];
 
 static GLfloat spin = 0.0;
 static GLfloat spin_speed = 9.0;
 
-char move;
+char key;
 
 float rate = 1.0;
 float spin_x = 1;
@@ -30,12 +32,12 @@ float spin_z = 0;
 
 void init();
 void myDisplay();
-void spinColck(void);
 void initCube();
 void spinColck(void);
 void spinAntiClock(void);
 void keyPress(void);
-void setSpin(char ax, int rot);
+void setSpin(char ax, int dir);
+bool selectParts(int i, int j);
 
 int main(int argc, char** argv){
     initCube();
@@ -103,7 +105,7 @@ void myDisplay(void){
     glRotatef(20, 0.01, -0.01, 0.0001);
     for (int i = 0; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
-            if (( j==2|| j==5 || j==8 || i==5) && i!=2){
+            if (( j==side[3][0]|| j==side[3][1] || j==side[3][2] || i==3) && i!=1){
                 glPushMatrix();
                 glRotatef(spin, spin_x, spin_y, spin_z);
                 cube[seq[i]][j].plot();
@@ -164,8 +166,8 @@ void initCube(){
     }
 }
 
-void keyPress(unsigned char key, int x, int y){
-    switch (key) {
+void keyPress(unsigned char inp, int x, int y){
+    switch (inp) {
         case 'R':
             setSpin('x', 1);
             break;
@@ -202,9 +204,11 @@ void keyPress(unsigned char key, int x, int y){
         case 'u':
             setSpin('y', 0);
     }
+
+    key = (char)inp;
 }
 
-void setSpin(char ax, int rot){
+void setSpin(char ax, int dir){
     spin_x = 0;
     spin_y = 0;
     spin_z = 0;
@@ -221,7 +225,7 @@ void setSpin(char ax, int rot){
             break;
     }
 
-    if (rot)
+    if (dir)
         glutIdleFunc(spinColck);
     else
         glutIdleFunc(spinAntiClock);
@@ -231,3 +235,8 @@ void setSpin(char ax, int rot){
     spin_speed = 9;
 }
 
+bool selectParts(int i, int j){
+
+
+    return false;
+}
