@@ -20,7 +20,7 @@ const float part::xNy[9][2][2] = {
 part cube[7][9];
 
 static GLfloat spin = 0.0;
-static GLfloat spin_speed = 2.0;
+static GLfloat spin_speed = 5.0;
 
 char move;
 
@@ -33,6 +33,9 @@ void init();
 void myDisplay();
 void spinDisplay(void);
 void initCube();
+void spinDisplay(void);
+void spinDisplayRev(void);
+void keyPress(void);
 
 int main(int argc, char** argv){
     initCube();
@@ -43,9 +46,8 @@ int main(int argc, char** argv){
     glutCreateWindow("Rubik's cube");
     init();
     glutDisplayFunc(myDisplay);
-    glutIdleFunc(spinDisplay);
+    // glutIdleFunc(spinDisplay);
     glutKeyboardFunc(keyPress);
-    glutMouseFunc(mouseClick);
 
     glutMainLoop();
     glutSwapBuffers();
@@ -54,10 +56,10 @@ int main(int argc, char** argv){
 }
 
 void init(){
-    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_specular[] = { 4.0, 4.0, 4.0, 1.0 };
     GLfloat mat_shininess[] = { 100.0 };
-    GLfloat light_position[] = { 0.0, 0.0, 4.0, 1.0 };
-    GLfloat light_spot[] = { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat light_position[] = { 4.0, 4.0, 4.0, 1.0 };
+    GLfloat light_spot[] = { 0.0, 0.0, -1.0, 1.0 };
     glClearColor(0, 0, 0, 1);
     glShadeModel(GL_SMOOTH);
     glClearDepth(0.0f);
@@ -65,9 +67,12 @@ void init(){
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
     glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_NORMALIZE);
+    glDisable(GL_POLYGON_OFFSET_FILL);
 
+    glLoadIdentity();
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
@@ -84,17 +89,11 @@ void myDisplay(void){
     int seq[7] = {0,6,4,3,1,2,5};
 
     glRotatef(20, 0.01, -0.01, 0.01);
-    glRotatef(spin/8, 0.01, -0.01, 0.01);
     for (int i = 0; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
             glPushMatrix();
-            if (( j==2|| j==5 || j==8 || i==5) && i!=2) {
+            if (( j==2|| j==5 || j==8 || i==5) && i!=2)
                 glRotatef(spin, spin_x, spin_y, spin_z);
-            }else if (( j==0|| j==3 || j==6 || i==2) && i!=5) {
-                glRotatef(spin/4, spin_x, spin_y, spin_z);
-            }else{
-                glRotatef(spin/2, spin_x, spin_y, spin_z);
-            }
 
             cube[seq[i]][j].plot();
             glPopMatrix();
@@ -106,18 +105,35 @@ void myDisplay(void){
 }
 
 void spinDisplay(void){
-    // if(spin_speed > 0.5){
-    //     if(spin > 70){
-    //         spin_speed -= rate;
-    //         rate += 0.5;
-    //     }
-    // }else
-    //     spin_speed = 0.5;
+    if(spin_speed > 0.5){
+        if(spin > 70){
+            spin_speed -= rate;
+            rate += 0.5;
+        }
+    }else
+        spin_speed = 0.5;
 
-    if(spin <= 2880)
+    if(spin < 90)
         spin += spin_speed;
     else
-        spin = 0;
+        spin = 90;
+
+    glutPostRedisplay();
+}
+
+void spinDisplayRev(void){
+    if(spin_speed > 0.5){
+        if(spin < -70){
+            spin_speed -= rate;
+            rate += 0.5;
+        }
+    }else
+        spin_speed = 0.5;
+
+    if(spin > -90)
+        spin -= spin_speed;
+    else
+        spin = -90;
 
     glutPostRedisplay();
 }
@@ -130,16 +146,17 @@ void initCube(){
     }
 }
 
-void mouseClick(int button, int state, int x, int y){
-    switch (button) {
-        case GLUT_LEFT_BUTTON:
+void keyPress(unsigned char key, int x, int y){
+    if (key == 'R') {
             spin = 0.0;
             rate=2.0;
             spin_speed = 9;
-            break;
+            glutIdleFunc(spinDisplay);
+    }else if (key == 'r') {
+            spin = 0.0;
+            rate=2.0;
+            spin_speed = 9;
+            glutIdleFunc(spinDisplayRev);
     }
-}
-
-void keyPress(unsigned char key, int x, int y){
 
 }
