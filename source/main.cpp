@@ -20,7 +20,7 @@ const float part::xNy[9][2][2] = {
 part cube[7][9];
 
 static GLfloat spin = 0.0;
-static GLfloat spin_speed = 5.0;
+static GLfloat spin_speed = 9.0;
 
 char move;
 
@@ -57,10 +57,10 @@ int main(int argc, char** argv){
 
 void init(){ //magic don't touch 
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat mat_shininess[] = { 110.0 };
-    GLfloat light_position[] = { -0.1, 1.0, 2.5, 0.3 };
-    GLfloat spot_direction[] = { 0.0, -0.8, -2.5 };
-    GLfloat light_color[] = { 1.0, 0.9451, 0.6667, 1.0 };
+    GLfloat mat_shininess[] = {99.9};
+    GLfloat light_position[] = { -0.1, 1.0, 2.0, 0.3 };
+    GLfloat spot_direction[] = { 0.0, -0.8, -2.0 };
+    GLfloat light_color[] = { 1.0, 0.9451, 0.6667, 1.0 }; //Tunglten 100W
     glClearColor(0, 0, 0, 0);
     glShadeModel(GL_SMOOTH);
     glClearDepth(1.0f);
@@ -74,11 +74,11 @@ void init(){ //magic don't touch
     glPushMatrix();
     glLoadIdentity(); //setup light in a clean transformation
     glScalef(0.15, 0.2667, 0.15);
-    glRotatef(50, 1.0, -1.0, 1.0);
+    glRotatef(90, 1.0, -1.0, 1.0);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 18.0);
+    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 15.0);
     glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color);
     glPopMatrix();
@@ -129,8 +129,10 @@ void spinColck(void){
 
     if(spin < 90)
         spin += spin_speed;
-    else
+    else{
         spin = 90;
+        glutIdleFunc(NULL);
+    }
 
     glutPostRedisplay();
 }
@@ -146,8 +148,10 @@ void spinAntiClock(void){
 
     if(spin > -90)
         spin -= spin_speed;
-    else
+    else{
         spin = -90;
+        glutIdleFunc(NULL);
+    }
 
     glutPostRedisplay();
 }
@@ -164,12 +168,12 @@ void keyPress(unsigned char key, int x, int y){
     if (key == 'R') {
             spin = 0.0;
             rate=1.0;
-            spin_speed = 5;
+            spin_speed = 9;
             glutIdleFunc(spinColck);
     }else if (key == 'r') {
             spin = 0.0;
             rate=1.0;
-            spin_speed = 5;
+            spin_speed = 9;
             glutIdleFunc(spinAntiClock);
     }
 
