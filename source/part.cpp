@@ -1,4 +1,12 @@
 #include "part.h"
+void DrawSquare(int x, int y){
+    glBegin(GL_POLYGON);
+    glVertex3f(x  , -2, y  );
+    glVertex3f(x  , -2, y+1);
+    glVertex3f(x+1, -2, y+1);
+    glVertex3f(x+1, -2, y  );
+    glEnd();
+}
 
 void part::plot(){
     if(plane==1 || plane==3){
@@ -57,4 +65,19 @@ void part::init(int p, int ps){
     lower_y = xNy[ps][0][1];
     upper_x = xNy[ps][1][0];
     upper_y = xNy[ps][1][1];
+}
+
+void chess(){
+    glColor3f(0, 0, 0);
+
+    for (int i = -8; i <8; i++) {     //along X axis
+        for (int j=-8; j <8; j++) {   //along Y axis
+            if( (i%2==0) && (j%2==0) )
+                DrawSquare(i,j);
+            else if( (i%2!=0) && (j%2!=0) )
+                DrawSquare(i,j);
+        }
+    }
+
+    glFlush();
 }

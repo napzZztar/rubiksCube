@@ -24,17 +24,17 @@ static GLfloat spin_speed = 5.0;
 
 char move;
 
-float rate = 2.0;
+float rate = 1.0;
 float spin_x = 1;
 float spin_y = 0;
 float spin_z = 0;
 
 void init();
 void myDisplay();
-void spinDisplay(void);
+void spinColck(void);
 void initCube();
-void spinDisplay(void);
-void spinDisplayRev(void);
+void spinColck(void);
+void spinAntiClock(void);
 void keyPress(void);
 
 int main(int argc, char** argv){
@@ -44,59 +44,71 @@ int main(int argc, char** argv){
     glutInitWindowSize(1280, 720);
     glutInitWindowPosition(0,0);
     glutCreateWindow("Rubik's cube");
-    init();
     glutDisplayFunc(myDisplay);
-    // glutIdleFunc(spinDisplay);
+    // glutIdleFunc(spinColck);
     glutKeyboardFunc(keyPress);
 
+    init();
     glutMainLoop();
     glutSwapBuffers();
 
     return 0;
 }
 
-void init(){
-    GLfloat mat_specular[] = { 4.0, 4.0, 4.0, 1.0 };
-    GLfloat mat_shininess[] = { 100.0 };
-    GLfloat light_position[] = { 4.0, 4.0, 4.0, 1.0 };
-    GLfloat light_spot[] = { 0.0, 0.0, -1.0, 1.0 };
-    glClearColor(0, 0, 0, 1);
+void init(){ //magic don't touch 
+    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_shininess[] = { 110.0 };
+    GLfloat light_position[] = { -0.1, 1.0, 2.5, 0.3 };
+    GLfloat spot_direction[] = { 0.0, -0.8, -2.5 };
+    glClearColor(0, 0, 0, 0);
     glShadeModel(GL_SMOOTH);
-    glClearDepth(0.0f);
+    glClearDepth(1.0f);
 
-    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHTING); //lol
     glEnable(GL_LIGHT0);
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-    glEnable(GL_COLOR_MATERIAL);
-    glEnable(GL_NORMALIZE);
-    glDisable(GL_POLYGON_OFFSET_FILL);
+    glEnable(GL_COLOR_MATERIAL); //light with the material color
+    glEnable(GL_NORMALIZE); //light intencity or reclection (need to research)
 
-    glLoadIdentity();
+    glPushMatrix();
+    glLoadIdentity(); //setup light in a clean transformation
+    glScalef(0.15, 0.2667, 0.15);
+    glRotatef(50, 1.0, -1.0, 1.0);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-    glLightfv(GL_LIGHT0, GL_POSITION, light_spot);
+    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 18.0);
+    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
+    glPopMatrix();
 }
 
 void myDisplay(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
+    glScalef(0.15, 0.2667, 0.15); //too big??
+    glColor3f(0.5,0.5,0.5);
 
-    glScalef(0.15, 0.2667, 0.15);
+    glBegin(GL_POLYGON); //temporary BG
+    glVertex3f(8, 8, -2);
+    glVertex3f(-8, 8, -2);
+    glVertex3f(-8, -8, -2);
+    glVertex3f(8, -8, -2);
+    glEnd();
 
-    int seq[7] = {0,6,4,3,1,2,5};
+    int seq[7] = {0,6,4,3,1,2,5}; //sequence of planes
 
-    glRotatef(20, 0.01, -0.01, 0.01);
+    glRotatef(20, 0.01, -0.01, 0.0001);
     for (int i = 0; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
-            glPushMatrix();
-            if (( j==2|| j==5 || j==8 || i==5) && i!=2)
+            if (( j==2|| j==5 || j==8 || i==5) && i!=2){
+                glPushMatrix();
                 glRotatef(spin, spin_x, spin_y, spin_z);
+                cube[seq[i]][j].plot();
+                glPopMatrix();
+            }else
+                cube[seq[i]][j].plot();
 
-            cube[seq[i]][j].plot();
-            glPopMatrix();
         }
     }
 
@@ -104,7 +116,7 @@ void myDisplay(void){
     glutSwapBuffers();
 }
 
-void spinDisplay(void){
+void spinColck(void){
     if(spin_speed > 0.5){
         if(spin > 70){
             spin_speed -= rate;
@@ -121,7 +133,7 @@ void spinDisplay(void){
     glutPostRedisplay();
 }
 
-void spinDisplayRev(void){
+void spinAntiClock(void){
     if(spin_speed > 0.5){
         if(spin < -70){
             spin_speed -= rate;
@@ -149,14 +161,14 @@ void initCube(){
 void keyPress(unsigned char key, int x, int y){
     if (key == 'R') {
             spin = 0.0;
-            rate=2.0;
-            spin_speed = 9;
-            glutIdleFunc(spinDisplay);
+            rate=1.0;
+            spin_speed = 5;
+            glutIdleFunc(spinColck);
     }else if (key == 'r') {
             spin = 0.0;
-            rate=2.0;
-            spin_speed = 9;
-            glutIdleFunc(spinDisplayRev);
+            rate=1.0;
+            spin_speed = 5;
+            glutIdleFunc(spinAntiClock);
     }
 
 }
