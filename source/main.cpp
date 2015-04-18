@@ -76,7 +76,6 @@ void init(){ //magic don't touch
     glPushMatrix();
     glLoadIdentity(); //setup light in a clean transformation
     glScalef(0.15, 0.2667, 0.15);
-    glRotatef(90, 1.0, -1.0, 1.0);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
@@ -87,8 +86,6 @@ void init(){ //magic don't touch
 }
 
 void myDisplay(void){
-    GLfloat light_position[] = { -0.1, 1.0, 2.0, 0.3 };
-    GLfloat spot_direction[] = { 0.0, -0.8, -2.0 };
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
@@ -102,20 +99,16 @@ void myDisplay(void){
     glVertex3f(8, -8, -2);
     glEnd();
 
-    int seq[7] = {0,6,4,3,1,2,5}; //sequence of planes
+    int seq[7] = {0,4,6,3,1,2,5}; //sequence of planes
 
-    glRotatef(20, 0.01, -0.01, 0.0001);
-    for (int i = 0; i < 7; i++) {
+    glRotatef(-20, 0.01, -0.01, 0.0001);
+    for (int i = 1; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
-            if (( j==side[2][0]|| j==side[2][1] || j==side[2][2] || i==3) && i!=1){
+            //int side[4][3] = {{0,1,2}, {6,7,8}, {2,5,8}, {0,3,6}};
+            if (( j==side[2][0]|| j==side[2][1] || j==side[2][2] || i==5) && i!=1){
                 glPushMatrix();
                 glRotatef(spin, spin_x, spin_y, spin_z);
                 cube[seq[i]][j].plot();
-                glLoadIdentity(); //setup light in a clean transformation
-                glScalef(0.15, 0.2667, 0.15);
-                glRotatef(90, 1.0, -1.0, 1.0);
-                glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-                glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
                 glPopMatrix();
             }else
                 cube[seq[i]][j].plot();
@@ -210,6 +203,7 @@ void keyPress(unsigned char inp, int x, int y){
             break;
         case 'u':
             setSpin('y', 0);
+            break;
     }
 
     key = (char)inp;
