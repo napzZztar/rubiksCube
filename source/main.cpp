@@ -22,8 +22,10 @@ part cube[7][9];
 
 static GLfloat spin       = 0.0;
 static GLfloat spin_speed = 9.0;
+static GLfloat cubeSpin   = 0.0;
 
-char key;
+
+int cs;
 
 float rate   = 1.0;
 float spin_x = 1;
@@ -53,6 +55,7 @@ int main(int argc, char** argv){
     init();
     glutMainLoop();
     glutSwapBuffers();
+
 
     return 0;
 }
@@ -102,12 +105,18 @@ void myDisplay(void){
     int seq[7] = {0,4,6,3,1,2,5}; //sequence of planes
 
     glRotatef(-20, 0.01, -0.01, 0.0001);
+    
+    if(cs)
+        glRotatef(cubeSpin, spin_x, spin_y, spin_z);
+
     for (int i = 1; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
             //int side[4][3] = {{0,1,2}, {6,7,8}, {2,5,8}, {0,3,6}};
             if (( j==side[2][0]|| j==side[2][1] || j==side[2][2] || i==5) && i!=1){
                 glPushMatrix();
-                glRotatef(spin, spin_x, spin_y, spin_z);
+                if(!cs)
+                    glRotatef(spin, spin_x, spin_y, spin_z);
+
                 cube[seq[i]][j].plot();
                 glPopMatrix();
             }else
@@ -136,6 +145,10 @@ void spinColck(void){
         glutIdleFunc(NULL);
     }
 
+    if (cs){
+        cubeSpin = spin;
+    }
+
     glutPostRedisplay();
 }
 
@@ -153,6 +166,10 @@ void spinAntiClock(void){
     else{
         spin = -90;
         glutIdleFunc(NULL);
+    }
+
+    if (cs){
+        cubeSpin = spin;
     }
 
     glutPostRedisplay();
@@ -204,9 +221,25 @@ void keyPress(unsigned char inp, int x, int y){
         case 'u':
             setSpin('y', 0);
             break;
-    }
+        case '8':
+            cs = 1;
+            setSpin('x', 0);
+            break;
+        case '2':
+            setSpin('x', 1);
+            break;
+        case '4':
+            setSpin('y', 1);
+            break;
+        case '6':
+            setSpin('y', 0);
+            break;
 
-    key = (char)inp;
+        if(inp == '8' || inp == '2' || inp == '4' || inp == '8')
+            cs = 1;
+        else
+            cs = 0;
+    }
 }
 
 void setSpin(char ax, int dir){
