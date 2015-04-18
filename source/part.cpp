@@ -54,10 +54,10 @@ void part::plot(){
         }
 
         glBegin(GL_POLYGON);
-        glVertex3f(lower_x, plane_y, lower_y);
-        glVertex3f(upper_x, plane_y, lower_y);
-        glVertex3f(upper_x, plane_y, upper_y);
-        glVertex3f(lower_x, plane_y, upper_y);
+        glVertex3f(lower_y, plane_y,lower_x);
+        glVertex3f(lower_y, plane_y,upper_x);
+        glVertex3f(upper_y, plane_y,upper_x);
+        glVertex3f(upper_y, plane_y,lower_x);
         glEnd();
     }
 }
