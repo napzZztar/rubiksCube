@@ -22,8 +22,6 @@ part cube[7][9];
 
 static GLfloat spin       = 0.0;
 static GLfloat spin_speed = 9.0;
-static GLfloat cubeSpin   = 0.0;
-
 
 int cs;
 
@@ -107,12 +105,12 @@ void myDisplay(void){
     glRotatef(-20, 0.01, -0.01, 0.0001);
     
     if(cs)
-        glRotatef(cubeSpin, spin_x, spin_y, spin_z);
+        glRotatef(spin, spin_x, spin_y, spin_z);
 
     for (int i = 1; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
             //int side[4][3] = {{0,1,2}, {6,7,8}, {2,5,8}, {0,3,6}};
-            if (( j==side[2][0]|| j==side[2][1] || j==side[2][2] || i==5) && i!=1){
+            if (( j==side[3][0]|| j==side[3][1] || j==side[3][2] || i==5) && i!=1){
                 glPushMatrix();
                 if(!cs)
                     glRotatef(spin, spin_x, spin_y, spin_z);
@@ -124,6 +122,7 @@ void myDisplay(void){
 
         }
     }
+
 
     glFlush();
     glutSwapBuffers();
@@ -145,10 +144,7 @@ void spinColck(void){
         glutIdleFunc(NULL);
     }
 
-    if (cs){
-        cubeSpin = spin;
-    }
-
+    init();
     glutPostRedisplay();
 }
 
@@ -168,10 +164,7 @@ void spinAntiClock(void){
         glutIdleFunc(NULL);
     }
 
-    if (cs){
-        cubeSpin = spin;
-    }
-
+    init();
     glutPostRedisplay();
 }
 
@@ -235,11 +228,11 @@ void keyPress(unsigned char inp, int x, int y){
             setSpin('y', 0);
             break;
 
-        if(inp == '8' || inp == '2' || inp == '4' || inp == '8')
-            cs = 1;
-        else
-            cs = 0;
     }
+    if(inp == '8' || inp == '2' || inp == '4' || inp == '6')
+        cs = 1;
+    else
+        cs = 0;
 }
 
 void setSpin(char ax, int dir){
