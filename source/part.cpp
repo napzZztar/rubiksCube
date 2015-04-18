@@ -1,4 +1,8 @@
+#include <iterator>
 #include "part.h"
+
+using namespace std;
+
 void DrawSquare(int x, int y){
     glBegin(GL_POLYGON);
     glVertex3f(x  , -2, y  );

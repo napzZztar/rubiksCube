@@ -16,7 +16,7 @@ const float part::xNy[9][2][2] = {
     {{0.5  , 0.5}  , {1.48  , 1.48 }} ,
 };
 
-int side[4][3] = {{0,1,2}, {6,7,8}, {2,5,8}, {0,3,6}};
+int side[7][3] = {{0}, {0,1,2}, {2,5,8}, {6,7,8}, {0,3,6}, {6,7,8}, {0,1,2}};
 
 part cube[7][9];
 
@@ -107,8 +107,7 @@ void myDisplay(void){
     
     for (int i = 1; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
-            //int side[4][3] = {{0,1,2}, {6,7,8}, {2,5,8}, {0,3,6}};
-            if (selectParts(i, j)){ //returns if rotating this part is necessary
+            if (selectParts(seq[i], j)){ //returns if rotating this part is necessary
                 glPushMatrix();
                 glRotatef(spin, spin_x, spin_y, spin_z);
                 cube[seq[i]][j].plot();
@@ -262,13 +261,28 @@ void setSpin(char ax, int dir){
 
 //int side[4][3] = {{0,1,2}, {6,7,8}, {2,5,8}, {0,3,6}};
 bool selectParts(int i, int j){
+    int sidVal = -1;
+    int sideOp = -1;
     if (cs) { //all parts for cube spin
         return true;
     } else{
-        return false;
+        if(key == 'R' || key == 'r'){
+            sidVal = 2;
+            sideOp = 4;
+        }else if(key == 'L' || key == 'l'){
+            sidVal = 4;
+            sideOp = 2;
+        }else if(key == 'U' || key == 'U'){
+            sidVal = 5;
+            sideOp = 6;
+        }else if(key == 'D' || key == 'd'){
+            sidVal = 6;
+            sideOp = 5;
+        }
+
+        if((i == sidVal || side[sidVal][0] == j || side[sidVal][1] == j || side[sidVal][2] == j) && i != sideOp)
+            return true;
     }
-
-
 
     return false;
 }
