@@ -39,10 +39,10 @@ void part::plot(){
         }
 
         glBegin(GL_POLYGON);
-        glVertex3f(plane_x, lower_x, lower_y);
-        glVertex3f(plane_x, upper_x, lower_y);
-        glVertex3f(plane_x, upper_x, upper_y);
-        glVertex3f(plane_x, lower_x, upper_y);
+        glVertex3f( plane_x,lower_y, lower_x );
+        glVertex3f( plane_x,lower_y, upper_x );
+        glVertex3f( plane_x,upper_y, upper_x );
+        glVertex3f( plane_x,upper_y, lower_x );
         glEnd();
     }else if (plane==5 || plane==6) {
         float plane_y = 1.5;
