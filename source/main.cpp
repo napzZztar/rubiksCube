@@ -24,6 +24,7 @@ static GLfloat spin       = 0.0;
 static GLfloat spin_speed = 9.0;
 
 int cs;
+int key;
 
 float rate   = 1.0;
 float spin_x = 1;
@@ -104,17 +105,12 @@ void myDisplay(void){
 
     glRotatef(-20, 0.01, -0.01, 0.0001);
     
-    if(cs)
-        glRotatef(spin, spin_x, spin_y, spin_z);
-
     for (int i = 1; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
             //int side[4][3] = {{0,1,2}, {6,7,8}, {2,5,8}, {0,3,6}};
-            if (( j==side[3][0]|| j==side[3][1] || j==side[3][2] || i==5) && i!=1){
+            if (selectParts(i, j)){ //returns if rotating this part is necessary
                 glPushMatrix();
-                if(!cs)
-                    glRotatef(spin, spin_x, spin_y, spin_z);
-
+                glRotatef(spin, spin_x, spin_y, spin_z);
                 cube[seq[i]][j].plot();
                 glPopMatrix();
             }else
@@ -229,6 +225,8 @@ void keyPress(unsigned char inp, int x, int y){
             break;
 
     }
+
+    key = inp;
     if(inp == '8' || inp == '2' || inp == '4' || inp == '6')
         cs = 1;
     else
@@ -262,7 +260,14 @@ void setSpin(char ax, int dir){
     spin_speed = 9;
 }
 
+//int side[4][3] = {{0,1,2}, {6,7,8}, {2,5,8}, {0,3,6}};
 bool selectParts(int i, int j){
+    if (cs) { //all parts for cube spin
+        return true;
+    } else{
+        return false;
+    }
+
 
 
     return false;
