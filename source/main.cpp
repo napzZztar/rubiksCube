@@ -16,7 +16,7 @@ const float part::xNy[9][2][2] = {
     {{0.5  , 0.5}  , {1.48  , 1.48 }} ,
 };
 
-int side[7][3] = {{0}, {0,1,2}, {2,5,8}, {6,7,8}, {0,3,6}, {6,7,8}, {0,1,2}};
+int side[7][3] = {{0}, {0,3,6}, {2,5,8}, {2,5,8}, {0,3,6}, {6,7,8}, {0,1,2}};
 
 part cube[7][9];
 
@@ -259,7 +259,7 @@ void setSpin(char ax, int dir){
     spin_speed = 9;
 }
 
-//int side[4][3] = {{0,1,2}, {6,7,8}, {2,5,8}, {0,3,6}};
+//int side[7][3] = {{0}, {0,1,2}, {2,5,8}, {6,7,8}, {0,3,6}, {6,7,8}, {0,1,2}};
 bool selectParts(int i, int j){
     int sidVal = -1;
     int sideOp = -1;
@@ -272,12 +272,18 @@ bool selectParts(int i, int j){
         }else if(key == 'L' || key == 'l'){
             sidVal = 4;
             sideOp = 2;
-        }else if(key == 'U' || key == 'U'){
+        }else if(key == 'U' || key == 'u'){
             sidVal = 5;
             sideOp = 6;
         }else if(key == 'D' || key == 'd'){
             sidVal = 6;
             sideOp = 5;
+        }else if(key == 'F' || key == 'f'){
+            sidVal = 1;
+            sideOp = 3;
+        }else if(key == 'B' || key == 'b'){
+            sidVal = 3;
+            sideOp = 1;
         }
 
         if((i == sidVal || side[sidVal][0] == j || side[sidVal][1] == j || side[sidVal][2] == j) && i != sideOp)
