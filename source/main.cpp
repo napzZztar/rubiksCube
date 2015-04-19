@@ -21,10 +21,12 @@ int side[7][3] = {{0}, {0,3,6}, {2,5,8}, {2,5,8}, {0,3,6}, {6,7,8}, {0,1,2}};
 part cube[7][9];
 
 static GLfloat spin       = 0.0;
-static GLfloat spin_speed = 2.0;
+static GLfloat spin_speed = 9.0;
+GLfloat light_position[] = { -2.0, 2.0, 2.0, 1.0 };
+GLfloat spot_direction[] = { -1.0, -1.0, -1.0 };
 
 int cs;
-int key;
+int key = '5';
 
 float rate   = 1.0;
 float spin_x = 1;
@@ -62,8 +64,6 @@ int main(int argc, char** argv){
 void init(){ //magic don't touch 
     GLfloat mat_specular[]   = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[]  = {99.9};
-    GLfloat light_position[] = { -2.0, 2.0, 2.0, 1.0 };
-    GLfloat spot_direction[] = { -1.0, -1.0, -1.0 };
     GLfloat light_color[]    = { 1.0, 0.9451, 0.6667, 1.0 }; //Tunglten 100W
     glClearColor(0, 0, 0, 0);
     glShadeModel(GL_SMOOTH);
@@ -102,26 +102,26 @@ void myDisplay(void){
     glScalef(0.15, 0.2667, 0.15); //too big??
     glColor3f(0.5,0.5,0.5);
 
-    // glBegin(GL_POLYGON); //temporary BG
-    // glVertex3f(8, 8, -2);
-    // glVertex3f(-8, 8, -2);
-    // glVertex3f(-8, -8, -2);
-    // glVertex3f(8, -8, -2);
-    // glEnd();
-
-    int seq[7] = {0,4,6,3,1,2,5}; //sequence of planes
+    glBegin(GL_POLYGON); //temporary BG
+    glVertex3f(8  , 8  , 2);
+    glVertex3f(-8 , 8  , 2);
+    glVertex3f(-8 , -8 , 2);
+    glVertex3f(8  , -8 , 2);
+    glEnd();
 
     glRotatef(-20, 0.01, -0.01, 0.0001);
     
     for (int i = 1; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
-            if (selectParts(seq[i], j)){ //returns if rotating this part is necessary
+            if (selectParts(i, j)){ //returns if rotating this part is necessary
                 glPushMatrix();
                 glRotatef(spin, spin_x, spin_y, spin_z);
-                cube[seq[i]][j].plot();
+                cube[i][j].plot();
+                glLoadIdentity();
                 glPopMatrix();
-            }else
-                cube[seq[i]][j].plot();
+            }
+            else
+                cube[i][j].plot();
         }
     }
 
@@ -143,6 +143,8 @@ void spinColck(void){
         spin += spin_speed;
     else{
         spin = 90;
+        key = '5';
+        cs = 0;
         glutIdleFunc(NULL);
     }
 
@@ -163,6 +165,8 @@ void spinAntiClock(void){
         spin -= spin_speed;
     else{
         spin = -90;
+        cs = 0;
+        key = '5';
         glutIdleFunc(NULL);
     }
 
@@ -217,7 +221,6 @@ void keyPress(unsigned char inp, int x, int y){
             setSpin('y', 0);
             break;
         case '8':
-            cs = 1;
             setSpin('x', 0);
             break;
         case '2':
@@ -263,7 +266,7 @@ void setSpin(char ax, int dir){
 
     spin       = 0.0;
     rate       = 1.0;
-    spin_speed = 2;
+    spin_speed = 9;
 }
 
 //int side[7][3] = {{0}, {0,1,2}, {2,5,8}, {6,7,8}, {0,3,6}, {6,7,8}, {0,1,2}};
@@ -272,7 +275,10 @@ bool selectParts(int i, int j){
     int sideOp = -1;
     if (cs) { //all parts for cube spin
         return true;
-    } else{
+    }else if(key == '5'){
+        return false;
+    }
+    else{
         if(key == 'R' || key == 'r'){
             sidVal = 2;
             sideOp = 4;
