@@ -78,7 +78,7 @@ void init(){ //magic don't touch
     glPushMatrix();
     glLoadIdentity(); //setup light in a clean transformation
 
-    gluPerspective(50, 1, 3, 7);
+    gluPerspective(50, 1, 1, 10);
 
     glLoadIdentity(); //setup light in a clean transformation
     gluLookAt(0.0, 0.0, 0.0,
@@ -103,10 +103,10 @@ void myDisplay(void){
     glColor3f(0.5,0.5,0.5);
 
     glBegin(GL_POLYGON); //temporary BG
-    glVertex3f(8  , 8  , 2);
-    glVertex3f(-8 , 8  , 2);
-    glVertex3f(-8 , -8 , 2);
-    glVertex3f(8  , -8 , 2);
+    glVertex3f(8  , 8  , 3);
+    glVertex3f(-8 , 8  , 3);
+    glVertex3f(-8 , -8 , 3);
+    glVertex3f(8  , -8 , 3);
     glEnd();
 
     glRotatef(-20, 0.01, -0.01, 0.0001);
@@ -117,7 +117,6 @@ void myDisplay(void){
                 glPushMatrix();
                 glRotatef(spin, spin_x, spin_y, spin_z);
                 cube[i][j].plot();
-                glLoadIdentity();
                 glPopMatrix();
             }
             else
@@ -143,8 +142,8 @@ void spinColck(void){
         spin += spin_speed;
     else{
         spin = 90;
-        key = '5';
-        cs = 0;
+        // key = '5';
+        // cs = 0;
         glutIdleFunc(NULL);
     }
 
@@ -165,8 +164,8 @@ void spinAntiClock(void){
         spin -= spin_speed;
     else{
         spin = -90;
-        cs = 0;
-        key = '5';
+        // cs = 0;
+        // key = '5';
         glutIdleFunc(NULL);
     }
 
@@ -292,11 +291,15 @@ bool selectParts(int i, int j){
             sidVal = 6;
             sideOp = 5;
         }else if(key == 'F' || key == 'f'){
-            if(i==1 || ((j == 0|| j==1 || j==2) && (i==5 || i==6)) || ((j == 0|| j==3 || j==6) && (i==2 || i==4)))
+            if((i==1 || ((j == 0|| j==1 || j==2) && (i==5 || i==6)) || ((j == 0|| j==3 || j==6) && (i==2 || i==4))) && (i != 3))
                 return true;
+            else
+                return false;
         }else if(key == 'B' || key == 'b'){
-            sidVal = 3;
-            sideOp = 1;
+            if((i==3 || ((j == 6|| j==7 || j==8) && (i==5 || i==6)) || ((j == 2|| j==5 || j==8) && (i==2 || i==4))) && (i != 1))
+                return true;
+            else 
+                return false;
         }
 
         if((i == sidVal || side[sidVal][0] == j || side[sidVal][1] == j || side[sidVal][2] == j) && i != sideOp)

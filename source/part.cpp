@@ -22,7 +22,7 @@ void part::plot(){
             plane_z = 1.5;
         }
 
-        glBegin(GL_POLYGON);
+        glBegin(GL_QUADS);
         glVertex3f( lower_x, lower_y, plane_z);
         glVertex3f( upper_x, lower_y, plane_z);
         glVertex3f( upper_x, upper_y, plane_z);
