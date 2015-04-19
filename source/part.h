@@ -11,7 +11,8 @@
 
 void mouseClick(int button, int state, int x, int y);
 void keyPress(unsigned char key, int x, int y);
-void chess();
+void room();
+void lamp();
 
 class part{
     int plane; // 1 = red

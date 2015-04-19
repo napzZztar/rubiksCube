@@ -75,7 +75,7 @@ void part::init(int p, int ps){
     upper_y = xNy[ps][1][1];
 }
 
-void chess(){
+void room(){
     glPushMatrix();
     glTranslatef(0,0,-1.5);
     glRotatef(10, 0,1,0);
@@ -127,4 +127,17 @@ void chess(){
 
     glPopMatrix();
 
+}
+
+void lamp(){
+    glPushMatrix();
+    glTranslatef(0.0, 3.6, -0.0);
+    glRotatef(265, 1.0, 0.0, 0.0);
+    glColor4f(1.0,1.0,1.0, 1.0);
+    glutSolidCone(0.3, 0.2, 50, 50);
+    glColor4f(0.0,0.0,0.0, 1.0);
+    glutSolidCone(0.35, 0.25, 50, 50);
+    glColor4f(1.0,1.0,1.0, 1.0);
+    glutWireCone(0.36, 0.26, 10, 5);
+    glPopMatrix();
 }

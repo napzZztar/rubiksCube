@@ -30,6 +30,7 @@ float rate   = 1.0;
 float spin_x = 1;
 float spin_y = 0;
 float spin_z = 0;
+float zoom = 1;
 
 void init();
 void myDisplay();
@@ -63,9 +64,9 @@ int main(int argc, char** argv){
 void init(){ //magic don't touch 
     GLfloat mat_specular[]   = { 0.0f, 0.0f, 0.0f, 1.0f };
     GLfloat mat_shininess[]  = {10.0};
-    GLfloat light_color[]    = { 1.0f, 0.9551f, 0.6777f, 1.0f }; //Tunglten 100W
-    GLfloat light_position[] = { 7.5, 6.0, 4.9, 1.0 };
-    GLfloat spot_direction[] = { -1.5, 0.5, -4.0 };
+    GLfloat light_color[]    = { 1.0f, 0.9551f, 0.6777f, 0.0f }; //Tunglten 100W
+    GLfloat light_position[] = { 0.0, 3.0, -9.0, 1.0 };
+    GLfloat spot_direction[] = { 0.68, 1.0, -8.5 };
     glClearColor(0, 0, 0, 0);
     glShadeModel(GL_SMOOTH);
     glClearDepth(1.0f);
@@ -81,7 +82,7 @@ void init(){ //magic don't touch
     glLoadIdentity(); //setup light in a clean transformation
 
     gluPerspective(40, (1280.0f/720.0f), 0.1f, 100);
-    glTranslated(0, 0, -10.0);
+    glTranslated(0, 0, -12.0);
 
     // glScalef(0.15, 0.2667, 0.15);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
@@ -98,9 +99,11 @@ void myDisplay(void){
     glLoadIdentity();
 
     gluPerspective(40, (1280.0f/720.0f), 2.0f, 100);
-    glTranslated(0, 0, -12.0);
+    glTranslatef(0, 0, -12.0);
+    glRotatef(25, 0.01, -0.01, 0.0001);
     // glScalef(0.15, 0.2667, 0.15); //too big??
 
+    lamp();
     glColor4f(1.0,1.0,1.0, 1.0);
 
     // glBegin(GL_POLYGON); //temporary BG
@@ -111,22 +114,11 @@ void myDisplay(void){
     // glEnd();
 
 
-    chess();
+    room();
 
-    glRotatef(25, 0.01, -0.01, 0.0001);
 
-    glPushMatrix();
-    glTranslatef(3.3, 3.2, 4.1);
-    glRotatef(255, 1.0, -0.1, 0.35);
-    glColor4f(1.0,1.0,1.0, 1.0);
-    glutSolidCone(0.2, 0.2, 50, 50);
-    glColor4f(0.0,0.0,0.0, 1.0);
-    glutSolidCone(0.25, 0.25, 50, 50);
-    glColor4f(1.0,1.0,1.0, 1.0);
-    glutWireCone(0.26, 0.26, 10, 5);
-    glPopMatrix();
 
-    glScalef(0.8, 0.8, 0.8);
+    glScalef(zoom, zoom, zoom);
 
     for (int i = 1; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
@@ -324,6 +316,16 @@ void keyAction(char inp){
             break;
         case 'z':
             setSpin('z', 0);
+            break;
+        case '+':
+            zoom += 0.01;
+            cs = 1;
+            glutPostRedisplay();
+            break;
+        case '-':
+            zoom -= 0.01;
+            cs = 1;
+            glutPostRedisplay();
             break;
 
     }
