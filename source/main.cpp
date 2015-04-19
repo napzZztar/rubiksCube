@@ -61,11 +61,11 @@ int main(int argc, char** argv){
 }
 
 void init(){ //magic don't touch 
-    GLfloat mat_specular[]   = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat mat_shininess[]  = {99.9};
-    GLfloat light_color[]    = { 1.0, 0.9451, 0.6667, 1.0 }; //Tunglten 100W
-    GLfloat light_position[] = { 1.5, 1.5, 1.5, 1.0 };
-    GLfloat spot_direction[] = { 0.0, 0.0, 0.0 };
+    GLfloat mat_specular[]   = { 1.0f, 1.0f, 1.0f, 1.0f };
+    GLfloat mat_shininess[]  = {100.0};
+    GLfloat light_color[]    = { 1.0f, 0.9451f, 0.6667f, 1.0f }; //Tunglten 100W
+    GLfloat light_position[] = { 2.5, 2.5, 3.5, 1.0 };
+    GLfloat spot_direction[] = { 0.0, 1.0, -5.5 };
     glClearColor(0, 0, 0, 0);
     glShadeModel(GL_SMOOTH);
     glClearDepth(1.0f);
@@ -74,20 +74,18 @@ void init(){ //magic don't touch
     glEnable(GL_LIGHT0);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_COLOR_MATERIAL); //light with the material color
-    glEnable(GL_NORMALIZE); //light intencity or reclection (need to research)
+    glEnable(GL_NORMALIZE); //light intencity or reflection (need to research)
 
     glPushMatrix();
-    glLoadIdentity(); //setup light in a clean transformation
-
 
     glLoadIdentity(); //setup light in a clean transformation
-    gluLookAt(0.0, 0.0, 0.0,
-            0.0, 0.0, 0.0,
-            0.0, 0.0, 0.0);
+
+    gluPerspective(40, (1280.0f/720.0f), 0.1f, 100);
+    glTranslated(0, 0, -10.0);
 
     // glScalef(0.15, 0.2667, 0.15);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
     glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 45.0f);
@@ -106,15 +104,15 @@ void myDisplay(void){
 
 
     glBegin(GL_POLYGON); //temporary BG
-    glVertex3f(8  , 8  , -2.5f);
-    glVertex3f(-8 , 8  , -2.5f);
-    glVertex3f(-8 , -8 , -2.5f);
-    glVertex3f(8  , -8 , -2.5f);
+    glVertex3f(8  , 8  , -2.0f);
+    glVertex3f(-8 , 8  , -2.0f);
+    glVertex3f(-8 , -8 , -2.0f);
+    glVertex3f(8  , -8 , -2.0f);
     glEnd();
 
     glRotatef(25, 0.01, -0.01, 0.0001);
 
-    glutWireCube(3.0);
+    // glutWireCube(3.0);
 
     for (int i = 1; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
@@ -295,29 +293,29 @@ void keyAction(char inp){
         case 'u':
             setSpin('y', 0);
             break;
-        case 'x':
-            setSpin('x', 0);
-            break;
         case 'X':
             setSpin('x', 1);
             break;
-        case 'y':
-            setSpin('y', 1);
+        case 'x':
+            setSpin('x', 0);
             break;
         case 'Y':
+            setSpin('y', 1);
+            break;
+        case 'y':
             setSpin('y', 0);
             break;
-        case 'z':
+        case 'Z':
             setSpin('z', 1);
             break;
-        case 'Z':
+        case 'z':
             setSpin('z', 0);
             break;
 
     }
 
     key = inp;
-    if(inp == 'x' || inp == 'X' || inp == 'y' || inp == 'U' || inp == 'z' || inp == 'Z')
+    if(inp == 'x' || inp == 'X' || inp == 'y' || inp == 'Y' || inp == 'z' || inp == 'Z')
         cs = 1;
     else
         cs = 0;
