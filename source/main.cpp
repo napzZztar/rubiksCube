@@ -22,8 +22,6 @@ part cube[7][9];
 
 static GLfloat spin       = 0.0;
 static GLfloat spin_speed = 9.0;
-GLfloat light_position[] = { -2.0, 2.0, 2.0, 1.0 };
-GLfloat spot_direction[] = { -1.0, -1.0, -1.0 };
 
 int cs;
 int key = '5';
@@ -39,6 +37,7 @@ void initCube();
 void spinColck(void);
 void spinAntiClock(void);
 void keyPress(void);
+void keyAction(char inp);
 void setSpin(char ax, int dir);
 bool selectParts(int i, int j);
 
@@ -65,6 +64,8 @@ void init(){ //magic don't touch
     GLfloat mat_specular[]   = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[]  = {99.9};
     GLfloat light_color[]    = { 1.0, 0.9451, 0.6667, 1.0 }; //Tunglten 100W
+    GLfloat light_position[] = { 1.5, 1.5, 1.5, 1.0 };
+    GLfloat spot_direction[] = { 0.0, 0.0, 0.0 };
     glClearColor(0, 0, 0, 0);
     glShadeModel(GL_SMOOTH);
     glClearDepth(1.0f);
@@ -90,7 +91,7 @@ void init(){ //magic don't touch
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
-    // glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 90.0);
+    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 45.0f);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color);
     glPopMatrix();
 }
@@ -100,13 +101,13 @@ void myDisplay(void){
     glLoadIdentity();
 
     glScalef(0.15, 0.2667, 0.15); //too big??
-    glColor3f(0.5,0.5,0.5);
+    glColor3f(0.0274f,0.2117f,0.2588f);
 
     glBegin(GL_POLYGON); //temporary BG
-    glVertex3f(8  , 8  , 3);
-    glVertex3f(-8 , 8  , 3);
-    glVertex3f(-8 , -8 , 3);
-    glVertex3f(8  , -8 , 3);
+    glVertex3f(8  , 8  , 2.5f);
+    glVertex3f(-8 , 8  , 2.5f);
+    glVertex3f(-8 , -8 , 2.5f);
+    glVertex3f(8  , -8 , 2.5f);
     glEnd();
 
     glRotatef(-20, 0.01, -0.01, 0.0001);
@@ -145,9 +146,9 @@ void spinColck(void){
         // key = '5';
         // cs = 0;
         glutIdleFunc(NULL);
+        glutKeyboardFunc(keyPress);
     }
 
-    init();
     glutPostRedisplay();
 }
 
@@ -167,6 +168,7 @@ void spinAntiClock(void){
         // cs = 0;
         // key = '5';
         glutIdleFunc(NULL);
+        glutKeyboardFunc(keyPress);
     }
 
     init();
@@ -182,73 +184,11 @@ void initCube(){
 }
 
 void keyPress(unsigned char inp, int x, int y){
-    switch (inp) {
-        case 'R':
-            setSpin('x', 1);
-            break;
-        case 'r':
-            setSpin('x', 0);
-            break;
-        case 'F':
-            setSpin('z', 1);
-            break;
-        case 'f':
-            setSpin('z', 0);
-            break;
-        case 'B':
-            setSpin('z', 1);
-            break;
-        case 'b':
-            setSpin('z', 0);
-            break;
-        case 'L':
-            setSpin('x', 1);
-            break;
-        case 'l':
-            setSpin('x', 0);
-            break;
-        case 'D':
-            setSpin('y', 1);
-            break;
-        case 'd':
-            setSpin('y', 0);
-            break;
-        case 'U':
-            setSpin('y', 1);
-            break;
-        case 'u':
-            setSpin('y', 0);
-            break;
-        case 'x':
-            setSpin('x', 0);
-            break;
-        case 'X':
-            setSpin('x', 1);
-            break;
-        case 'y':
-            setSpin('y', 1);
-            break;
-        case 'Y':
-            setSpin('y', 0);
-            break;
-        case 'z':
-            setSpin('z', 1);
-            break;
-        case 'Z':
-            setSpin('z', 0);
-            break;
-
-    }
-
-    key = inp;
-    if(inp == 'x' || inp == 'X' || inp == 'y' || inp == 'U' || inp == 'z' || inp == 'Z')
-        cs = 1;
-    else
-        cs = 0;
+    keyAction(inp);
 }
 
 void setSpin(char ax, int dir){
-    spin_x = 0;
+    glutKeyboardFunc(NULL); spin_x = 0;
     spin_y = 0;
     spin_z = 0;
 
@@ -313,4 +253,70 @@ bool selectParts(int i, int j){
     }
 
     return false;
+}
+
+void keyAction(char inp){
+    switch (inp) {
+        case 'R':
+            setSpin('x', 1);
+            break;
+        case 'r':
+            setSpin('x', 0);
+            break;
+        case 'F':
+            setSpin('z', 1);
+            break;
+        case 'f':
+            setSpin('z', 0);
+            break;
+        case 'B':
+            setSpin('z', 1);
+            break;
+        case 'b':
+            setSpin('z', 0);
+            break;
+        case 'L':
+            setSpin('x', 1);
+            break;
+        case 'l':
+            setSpin('x', 0);
+            break;
+        case 'D':
+            setSpin('y', 1);
+            break;
+        case 'd':
+            setSpin('y', 0);
+            break;
+        case 'U':
+            setSpin('y', 1);
+            break;
+        case 'u':
+            setSpin('y', 0);
+            break;
+        case 'x':
+            setSpin('x', 0);
+            break;
+        case 'X':
+            setSpin('x', 1);
+            break;
+        case 'y':
+            setSpin('y', 1);
+            break;
+        case 'Y':
+            setSpin('y', 0);
+            break;
+        case 'z':
+            setSpin('z', 1);
+            break;
+        case 'Z':
+            setSpin('z', 0);
+            break;
+
+    }
+
+    key = inp;
+    if(inp == 'x' || inp == 'X' || inp == 'y' || inp == 'U' || inp == 'z' || inp == 'Z')
+        cs = 1;
+    else
+        cs = 0;
 }
