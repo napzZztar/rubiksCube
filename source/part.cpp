@@ -4,10 +4,14 @@
 using namespace std;
 
 void DrawSquare(int x, int y){
-    glBegin(GL_POLYGON);
+    glBegin(GL_QUADS);
+    glColor3f(0.4, 0, 0);
     glVertex3f(x  , -2, y  );
+    glColor3f(0, 0.4, 0);
     glVertex3f(x  , -2, y+1);
+    glColor3f(0, 0, 0.4);
     glVertex3f(x+1, -2, y+1);
+    glColor3f(0.5, 0.5, 0.5);
     glVertex3f(x+1, -2, y  );
     glEnd();
 }
@@ -72,16 +76,55 @@ void part::init(int p, int ps){
 }
 
 void chess(){
-    glColor3f(0, 0, 0);
+    glPushMatrix();
+    glTranslatef(0,0,-1.5);
+    glRotatef(10, 0,1,0);
 
     for (int i = -8; i <8; i++) {     //along X axis
         for (int j=-8; j <8; j++) {   //along Y axis
-            if( (i%2==0) && (j%2==0) )
+            if( (i+j) %2 ==0){
+                glColor3f(0, 0, 0);
                 DrawSquare(i,j);
-            else if( (i%2!=0) && (j%2!=0) )
-                DrawSquare(i,j);
+            }else{
+                glColor3f(1, 1, 1);
+                glBegin(GL_QUADS);
+                glVertex3f(i  , -2, j  );
+                glVertex3f(i  , -2, j+1);
+                glVertex3f(i+1, -2, j+1);
+                glVertex3f(i+1, -2, j  );
+                glEnd();
+            }
+
         }
     }
 
-    glFlush();
+    glColor3f(0.6, 0.8, 1);
+    glBegin(GL_POLYGON);
+    glVertex3f(8.0  , -2.0 , -8.0);
+    glVertex3f(8.0  , 4.0  , -8.0);
+    glVertex3f(-8.0 , 4.0  , -8.0);
+    glVertex3f(-8.0 , -2.0 , -8.0);
+    glVertex3f(8.0  , -2.0 , -8.0);
+    glVertex3f(8.0  , -2.0 , 8.0);
+    glVertex3f(8.0  , 4.0  , 8.0);
+    glVertex3f(8.0  , 4.0  , -8.0);
+    glEnd();
+
+    glBegin(GL_POLYGON);
+    glVertex3f(8.0  , 4.0 , 8.0);
+    glVertex3f(-8.0 , 4.0 , 8.0);
+    glVertex3f(-8.0 , 4.0 , -8.0);
+    glVertex3f(8.0  , 4.0 , -8.0);
+
+    glEnd();
+
+    glBegin(GL_POLYGON);
+    glVertex3f(-8.0 , 4.0  , 8.0);
+    glVertex3f(-8.0 , -2.0 , 8.0);
+    glVertex3f(-8.0 , -2.0 , -8.0);
+    glVertex3f(-8.0 , 4.0  , -8.0);
+    glEnd();
+
+    glPopMatrix();
+
 }

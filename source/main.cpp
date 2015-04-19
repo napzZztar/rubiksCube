@@ -61,11 +61,11 @@ int main(int argc, char** argv){
 }
 
 void init(){ //magic don't touch 
-    GLfloat mat_specular[]   = { 1.0f, 1.0f, 1.0f, 1.0f };
-    GLfloat mat_shininess[]  = {100.0};
-    GLfloat light_color[]    = { 1.0f, 0.9451f, 0.6667f, 1.0f }; //Tunglten 100W
-    GLfloat light_position[] = { 2.5, 2.5, 3.5, 1.0 };
-    GLfloat spot_direction[] = { 0.0, 1.0, -5.5 };
+    GLfloat mat_specular[]   = { 0.0f, 0.0f, 0.0f, 1.0f };
+    GLfloat mat_shininess[]  = {10.0};
+    GLfloat light_color[]    = { 1.0f, 0.9551f, 0.6777f, 1.0f }; //Tunglten 100W
+    GLfloat light_position[] = { 7.5, 7.5, 3.5, 1.0 };
+    GLfloat spot_direction[] = { -7.5, -7.5, -3.0 };
     glClearColor(0, 0, 0, 0);
     glShadeModel(GL_SMOOTH);
     glClearDepth(1.0f);
@@ -97,22 +97,35 @@ void myDisplay(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    gluPerspective(40, (1280.0f/720.0f), 0.1f, 100);
-    glTranslated(0, 0, -10.0);
+    gluPerspective(40, (1280.0f/720.0f), 2.0f, 100);
+    glTranslated(0, 0, -12.0);
     // glScalef(0.15, 0.2667, 0.15); //too big??
+
     glColor4f(1.0,1.0,1.0, 1.0);
 
+    // glBegin(GL_POLYGON); //temporary BG
+    // glVertex3f(9  , 9  , -1.5f);
+    // glVertex3f(-9 , 9  , -1.5f);
+    // glVertex3f(-9 , -9 , -1.5f);
+    // glVertex3f(9  , -9 , -1.5f);
+    // glEnd();
 
-    glBegin(GL_POLYGON); //temporary BG
-    glVertex3f(8  , 8  , -2.0f);
-    glVertex3f(-8 , 8  , -2.0f);
-    glVertex3f(-8 , -8 , -2.0f);
-    glVertex3f(8  , -8 , -2.0f);
-    glEnd();
+
+    chess();
 
     glRotatef(25, 0.01, -0.01, 0.0001);
 
-    // glutWireCube(3.0);
+    glPushMatrix();
+    glTranslatef(2.3, 3.7, 3.4);
+    glRotatef(255, 1.0, -0.1, 0.35);
+    glColor4f(1.0,1.0,1.0, 1.0);
+    glutSolidCone(0.2, 0.2, 50, 50);
+    glColor4f(0.0,0.0,0.0, 1.0);
+    glutSolidCone(0.25, 0.25, 50, 50);
+    glColor4f(1.0,1.0,1.0, 1.0);
+    glutWireCone(0.26, 0.26, 10, 5);
+    glPopMatrix();
+
 
     for (int i = 1; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
