@@ -219,23 +219,29 @@ void keyPress(unsigned char inp, int x, int y){
         case 'u':
             setSpin('y', 0);
             break;
-        case '8':
+        case 'x':
             setSpin('x', 0);
             break;
-        case '2':
+        case 'X':
             setSpin('x', 1);
             break;
-        case '4':
+        case 'y':
             setSpin('y', 1);
             break;
-        case '6':
+        case 'Y':
             setSpin('y', 0);
+            break;
+        case 'z':
+            setSpin('z', 1);
+            break;
+        case 'Z':
+            setSpin('z', 0);
             break;
 
     }
 
     key = inp;
-    if(inp == '8' || inp == '2' || inp == '4' || inp == '6')
+    if(inp == 'x' || inp == 'X' || inp == 'y' || inp == 'U' || inp == 'z' || inp == 'Z')
         cs = 1;
     else
         cs = 0;
