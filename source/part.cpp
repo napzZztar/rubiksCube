@@ -86,7 +86,7 @@ void room(){
                 glColor3f(0, 0, 0);
                 DrawSquare(i,j);
             }else{
-                glColor3f(1, 1, 1);
+                glColor3f(0.6, 0.8, 1);
                 glBegin(GL_QUADS);
                 glVertex3f(i  , -2, j  );
                 glVertex3f(i  , -2, j+1);
@@ -98,13 +98,21 @@ void room(){
         }
     }
 
-    glColor3f(0.6, 0.8, 1);
+    glColor3f(0.345f, 0.4314f, 0.4588f);
     glBegin(GL_POLYGON);
+    glColor3f(0.172f, 0.2154f, 0.2294f);
+    glColor3f(0.2, 0.2, 0.2);
     glVertex3f(8.0  , -2.0 , -8.0);
+    glColor3f(0.345f, 0.4314f, 0.4588f);
     glVertex3f(8.0  , 4.0  , -8.0);
     glVertex3f(-8.0 , 4.0  , -8.0);
+    glColor3f(0.172f, 0.2154f, 0.2294f);
     glVertex3f(-8.0 , -2.0 , -8.0);
+    glEnd();
+    glBegin(GL_POLYGON);
+    glColor3f(0.172f, 0.2154f, 0.2294f);
     glVertex3f(8.0  , -2.0 , -8.0);
+    glColor3f(0.345f, 0.4314f, 0.4588f);
     glVertex3f(8.0  , -2.0 , 8.0);
     glVertex3f(8.0  , 4.0  , 8.0);
     glVertex3f(8.0  , 4.0  , -8.0);
@@ -121,7 +129,9 @@ void room(){
     glBegin(GL_POLYGON);
     glVertex3f(-8.0 , 4.0  , 8.0);
     glVertex3f(-8.0 , -2.0 , 8.0);
+    glColor3f(0.1f, 0.2f, 0.2f);
     glVertex3f(-8.0 , -2.0 , -8.0);
+    glColor3f(0.345f, 0.4314f, 0.4588f);
     glVertex3f(-8.0 , 4.0  , -8.0);
     glEnd();
 

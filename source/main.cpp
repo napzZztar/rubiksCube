@@ -104,21 +104,10 @@ void myDisplay(void){
     // glScalef(0.15, 0.2667, 0.15); //too big??
 
     lamp();
-    glColor4f(1.0,1.0,1.0, 1.0);
-
-    // glBegin(GL_POLYGON); //temporary BG
-    // glVertex3f(9  , 9  , -1.5f);
-    // glVertex3f(-9 , 9  , -1.5f);
-    // glVertex3f(-9 , -9 , -1.5f);
-    // glVertex3f(9  , -9 , -1.5f);
-    // glEnd();
-
-
     room();
 
-
-
     glScalef(zoom, zoom, zoom);
+    glTranslatef(0, zoom, 0);
 
     for (int i = 1; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
@@ -318,20 +307,20 @@ void keyAction(char inp){
             setSpin('z', 0);
             break;
         case '+':
-            zoom += 0.01;
-            cs = 1;
+            if(zoom<1.25)
+                zoom += 0.01;
             glutPostRedisplay();
             break;
         case '-':
-            zoom -= 0.01;
-            cs = 1;
+            if(zoom>0.2)
+                zoom -= 0.01;
             glutPostRedisplay();
             break;
 
     }
 
     key = inp;
-    if(inp == 'x' || inp == 'X' || inp == 'y' || inp == 'Y' || inp == 'z' || inp == 'Z')
+    if(inp == 'x' || inp == 'X' || inp == 'y' || inp == 'Y' || inp == 'z' || inp == 'Z' || inp == '+' || inp == '-')
         cs = 1;
     else
         cs = 0;
