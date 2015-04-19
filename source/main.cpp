@@ -21,7 +21,7 @@ int side[7][3] = {{0}, {0,3,6}, {2,5,8}, {2,5,8}, {0,3,6}, {6,7,8}, {0,1,2}};
 part cube[7][9];
 
 static GLfloat spin       = 0.0;
-static GLfloat spin_speed = 9.0;
+static GLfloat spin_speed = 2.0;
 
 int cs;
 int key;
@@ -43,7 +43,7 @@ bool selectParts(int i, int j);
 int main(int argc, char** argv){
     initCube();
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+    glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(1280, 720);
     glutInitWindowPosition(0,0);
     glutCreateWindow("Rubik's cube");
@@ -62,8 +62,8 @@ int main(int argc, char** argv){
 void init(){ //magic don't touch 
     GLfloat mat_specular[]   = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[]  = {99.9};
-    GLfloat light_position[] = { -0.1, 1.0, 2.0, 0.3 };
-    GLfloat spot_direction[] = { 0.0, -0.8, -2.0 };
+    GLfloat light_position[] = { -2.0, 2.0, 2.0, 1.0 };
+    GLfloat spot_direction[] = { -1.0, -1.0, -1.0 };
     GLfloat light_color[]    = { 1.0, 0.9451, 0.6667, 1.0 }; //Tunglten 100W
     glClearColor(0, 0, 0, 0);
     glShadeModel(GL_SMOOTH);
@@ -77,12 +77,20 @@ void init(){ //magic don't touch
 
     glPushMatrix();
     glLoadIdentity(); //setup light in a clean transformation
+
+    gluPerspective(50, 1, 3, 7);
+
+    glLoadIdentity(); //setup light in a clean transformation
+    gluLookAt(0.0, 0.0, 0.0,
+            0.0, 0.0, 0.0,
+            0.0, 0.0, 0.0);
+
     glScalef(0.15, 0.2667, 0.15);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
-    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 15.0);
+    // glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 90.0);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color);
     glPopMatrix();
 }
@@ -94,12 +102,12 @@ void myDisplay(void){
     glScalef(0.15, 0.2667, 0.15); //too big??
     glColor3f(0.5,0.5,0.5);
 
-    glBegin(GL_POLYGON); //temporary BG
-    glVertex3f(8, 8, -2);
-    glVertex3f(-8, 8, -2);
-    glVertex3f(-8, -8, -2);
-    glVertex3f(8, -8, -2);
-    glEnd();
+    // glBegin(GL_POLYGON); //temporary BG
+    // glVertex3f(8, 8, -2);
+    // glVertex3f(-8, 8, -2);
+    // glVertex3f(-8, -8, -2);
+    // glVertex3f(8, -8, -2);
+    // glEnd();
 
     int seq[7] = {0,4,6,3,1,2,5}; //sequence of planes
 
@@ -114,11 +122,10 @@ void myDisplay(void){
                 glPopMatrix();
             }else
                 cube[seq[i]][j].plot();
-
         }
     }
 
-
+    init();
     glFlush();
     glutSwapBuffers();
 }
@@ -256,7 +263,7 @@ void setSpin(char ax, int dir){
 
     spin       = 0.0;
     rate       = 1.0;
-    spin_speed = 9;
+    spin_speed = 2;
 }
 
 //int side[7][3] = {{0}, {0,1,2}, {2,5,8}, {6,7,8}, {0,3,6}, {6,7,8}, {0,1,2}};
@@ -279,8 +286,8 @@ bool selectParts(int i, int j){
             sidVal = 6;
             sideOp = 5;
         }else if(key == 'F' || key == 'f'){
-            sidVal = 1;
-            sideOp = 3;
+            if(i==1 || ((j == 0|| j==1 || j==2) && (i==5 || i==6)) || ((j == 0|| j==3 || j==6) && (i==2 || i==4)))
+                return true;
         }else if(key == 'B' || key == 'b'){
             sidVal = 3;
             sideOp = 1;
