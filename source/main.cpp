@@ -79,14 +79,13 @@ void init(){ //magic don't touch
     glPushMatrix();
     glLoadIdentity(); //setup light in a clean transformation
 
-    gluPerspective(50, 1, 1, 10);
 
     glLoadIdentity(); //setup light in a clean transformation
     gluLookAt(0.0, 0.0, 0.0,
             0.0, 0.0, 0.0,
             0.0, 0.0, 0.0);
 
-    glScalef(0.15, 0.2667, 0.15);
+    // glScalef(0.15, 0.2667, 0.15);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
@@ -100,18 +99,23 @@ void myDisplay(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    glScalef(0.15, 0.2667, 0.15); //too big??
-    glColor3f(0.0274f,0.2117f,0.2588f);
+    gluPerspective(40, (1280.0f/720.0f), 0.1f, 100);
+    glTranslated(0, 0, -10.0);
+    // glScalef(0.15, 0.2667, 0.15); //too big??
+    glColor4f(1.0,1.0,1.0, 1.0);
+
 
     glBegin(GL_POLYGON); //temporary BG
-    glVertex3f(8  , 8  , 2.5f);
-    glVertex3f(-8 , 8  , 2.5f);
-    glVertex3f(-8 , -8 , 2.5f);
-    glVertex3f(8  , -8 , 2.5f);
+    glVertex3f(8  , 8  , -2.5f);
+    glVertex3f(-8 , 8  , -2.5f);
+    glVertex3f(-8 , -8 , -2.5f);
+    glVertex3f(8  , -8 , -2.5f);
     glEnd();
 
-    glRotatef(-20, 0.01, -0.01, 0.0001);
-    
+    glRotatef(25, 0.01, -0.01, 0.0001);
+
+    glutWireCube(3.0);
+
     for (int i = 1; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
             if (selectParts(i, j)){ //returns if rotating this part is necessary
@@ -125,7 +129,6 @@ void myDisplay(void){
         }
     }
 
-    init();
     glFlush();
     glutSwapBuffers();
 }
@@ -171,7 +174,6 @@ void spinAntiClock(void){
         glutKeyboardFunc(keyPress);
     }
 
-    init();
     glutPostRedisplay();
 }
 

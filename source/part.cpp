@@ -14,12 +14,12 @@ void DrawSquare(int x, int y){
 
 void part::plot(){
     if(plane==1 || plane==3){
-        float plane_z = -1.5; //initially for plane 1
+        float plane_z = 1.5; //initially for plane 1
         red;
 
         if (plane == 3){ //if it's the orange side
             orange;
-            plane_z = 1.5;
+            plane_z = -1.5;
         }
 
         glBegin(GL_QUADS);
