@@ -64,8 +64,8 @@ void init(){ //magic don't touch
     GLfloat mat_specular[]   = { 0.0f, 0.0f, 0.0f, 1.0f };
     GLfloat mat_shininess[]  = {10.0};
     GLfloat light_color[]    = { 1.0f, 0.9551f, 0.6777f, 1.0f }; //Tunglten 100W
-    GLfloat light_position[] = { 7.5, 7.5, 3.5, 1.0 };
-    GLfloat spot_direction[] = { -7.5, -7.5, -3.0 };
+    GLfloat light_position[] = { 7.5, 6.0, 4.9, 1.0 };
+    GLfloat spot_direction[] = { -1.5, 0.5, -4.0 };
     glClearColor(0, 0, 0, 0);
     glShadeModel(GL_SMOOTH);
     glClearDepth(1.0f);
@@ -116,7 +116,7 @@ void myDisplay(void){
     glRotatef(25, 0.01, -0.01, 0.0001);
 
     glPushMatrix();
-    glTranslatef(2.3, 3.7, 3.4);
+    glTranslatef(3.3, 3.2, 4.1);
     glRotatef(255, 1.0, -0.1, 0.35);
     glColor4f(1.0,1.0,1.0, 1.0);
     glutSolidCone(0.2, 0.2, 50, 50);
@@ -126,6 +126,7 @@ void myDisplay(void){
     glutWireCone(0.26, 0.26, 10, 5);
     glPopMatrix();
 
+    glScalef(0.8, 0.8, 0.8);
 
     for (int i = 1; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
