@@ -237,12 +237,12 @@ bool selectParts(int i, int j){
             sidVal = 6;
             sideOp = 5;
         }else if(key == 'F' || key == 'f'){
-            if((i==1 || ((j == 0|| j==1 || j==2) && (i==5 || i==6)) || ((j == 0|| j==3 || j==6) && (i==2 || i==4))) && (i != 3))
+            if((i==1 || ((j == 6|| j==7 || j==8) && (i==5 || i==6)) || ((j == 2|| j==5 || j==8) && (i==2 || i==4))) && (i != 3))
                 return true;
             else
                 return false;
         }else if(key == 'B' || key == 'b'){
-            if((i==3 || ((j == 6|| j==7 || j==8) && (i==5 || i==6)) || ((j == 2|| j==5 || j==8) && (i==2 || i==4))) && (i != 1))
+            if((i==3 || ((j == 0|| j==3 || j==6) && (i==2 || i==4)) || ((j == 0|| j==1 || j==2) && (i==5 || i==6))) && (i != 1))
                 return true;
             else 
                 return false;
