@@ -175,7 +175,7 @@ void initCube(){
     for (int i = 1; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
             cube[i][j].init(i, j);
-            cube[i][j].rotate(90, 'x');
+            cube[i][j].rotate(90, 'z');
         }
     }
 

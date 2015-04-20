@@ -105,14 +105,18 @@ void part::init(int p, int ps){
 }
 
 void part::rotate(int ang, char ax){
+    int plnSq[7] = {0,1,6,3,5,2,4};
     rotatePoint(ang, ax, 0);
     rotatePoint(ang, ax, 1);
+    plane = plnSq[plane];
 }
 
 void part::rotatePoint(int ang, char axis, bool se){
-    int x = lower_x;
-    int y = lower_y;
-    int z = lower_z;
+    float r;
+    float th1;
+    float x = lower_x;
+    float y = lower_y;
+    float z = lower_z;
 
     if (se) {
         x = upper_x;       
@@ -121,8 +125,13 @@ void part::rotatePoint(int ang, char axis, bool se){
     }
 
     if (axis =='z') {
-        x = x*cos(ang) - y*sin(ang);
-        y = x*sin(ang) + y*cos(ang);
+        r = sqrt(pow(x, 2) + pow(y, 2));
+        th1 = (atan(y/x)*180) / 3.14159f;
+
+        x = r * cos((ang+th1)*3.14159f/180.0f);
+        y = r * sin((ang+th1)*3.14159f/180.0f);
+        // x = x*cos(ang) - y*sin(ang);
+        // y = x*sin(ang) + y*cos(ang);
 
     }else if (axis == 'y') {
         y = y*cos(ang) - z*sin(ang);
