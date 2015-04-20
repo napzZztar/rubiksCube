@@ -16,21 +16,24 @@ const float part::xNy[9][2][2] = {
     {{0.5  , 0.5}  , {1.48  , 1.48 }} ,
 };
 
-int side[7][3] = {{0}, {0,3,6}, {2,5,8}, {2,5,8}, {0,3,6}, {6,7,8}, {0,1,2}};
+int side[7][3] = {{0}, {6,7,8}, {2,5,8}, {0,1,2}, {0,3,6}, {6,7,8}, {0,1,2}};
 
 part cube[7][9];
 
 static GLfloat spin       = 0.0;
 static GLfloat spin_speed = 9.0;
+GLfloat light_position[] = { -5.0, 3.0, -9.0, 1.0 };
+GLfloat spot_direction[] = { 0.0, 0.0, -8.5 };
 
 int cs;
-int key = '5';
+int key    = '5';
+float lAng = 0;
 
 float rate   = 1.0;
 float spin_x = 1;
 float spin_y = 0;
 float spin_z = 0;
-float zoom = 1;
+float zoom = 0.9;
 
 void init();
 void myDisplay();
@@ -38,6 +41,7 @@ void initCube();
 void spinColck(void);
 void spinAntiClock(void);
 void keyPress(void);
+void keyPress(unsigned char inp, int x, int y);
 void keyAction(char inp);
 void setSpin(char ax, int dir);
 bool selectParts(int i, int j);
@@ -57,7 +61,6 @@ int main(int argc, char** argv){
     glutMainLoop();
     glutSwapBuffers();
 
-
     return 0;
 }
 
@@ -65,8 +68,6 @@ void init(){ //magic don't touch
     GLfloat mat_specular[]   = { 0.0f, 0.0f, 0.0f, 1.0f };
     GLfloat mat_shininess[]  = {10.0};
     GLfloat light_color[]    = { 1.0f, 0.9551f, 0.6777f, 0.0f }; //Tunglten 100W
-    GLfloat light_position[] = { 0.0, 3.0, -9.0, 1.0 };
-    GLfloat spot_direction[] = { 0.68, 1.0, -8.5 };
     glClearColor(0, 0, 0, 0);
     glShadeModel(GL_SMOOTH);
     glClearDepth(1.0f);
@@ -82,7 +83,7 @@ void init(){ //magic don't touch
     glLoadIdentity(); //setup light in a clean transformation
 
     gluPerspective(40, (1280.0f/720.0f), 0.1f, 100);
-    glTranslated(0, 0, -12.0);
+    glTranslatef(0, 0, -12.0);
 
     // glScalef(0.15, 0.2667, 0.15);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
@@ -107,7 +108,7 @@ void myDisplay(void){
     room();
 
     glScalef(zoom, zoom, zoom);
-    glTranslatef(0, zoom, 0);
+    glTranslatef(0, zoom+0.5, 0);
 
     for (int i = 1; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
@@ -174,12 +175,35 @@ void initCube(){
     for (int i = 1; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
             cube[i][j].init(i, j);
+            cube[i][j].rotate(90, 'x');
         }
     }
+
 }
 
 void keyPress(unsigned char inp, int x, int y){
-    keyAction(inp);
+    switch (inp) {
+        case '1':
+            lAng++;
+            glPushMatrix();
+            glRotatef(lAng, 1, 0, 0);
+            glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+            glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
+            glutPostRedisplay();
+            glPopMatrix();
+            break;
+        case '2':
+            lAng--;
+            glPushMatrix();
+            glRotatef(lAng, 1, 0, 0);
+            glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+            glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
+            glutPostRedisplay();
+            glPopMatrix();
+            break;
+        default:
+            keyAction(inp);
+    }
 }
 
 void setSpin(char ax, int dir){
@@ -209,7 +233,7 @@ void setSpin(char ax, int dir){
     spin_speed = 9;
 }
 
-//int side[7][3] = {{0}, {0,1,2}, {2,5,8}, {6,7,8}, {0,3,6}, {6,7,8}, {0,1,2}};
+//int side[7][3] = {{0}, {6,7,8}, {2,5,8}, {0,1,2}, {0,3,6}, {6,7,8}, {0,1,2}};
 bool selectParts(int i, int j){
     int sidVal = -1;
     int sideOp = -1;
@@ -226,21 +250,21 @@ bool selectParts(int i, int j){
             sidVal = 4;
             sideOp = 2;
         }else if(key == 'U' || key == 'u'){
-            sidVal = 5;
-            sideOp = 6;
-        }else if(key == 'D' || key == 'd'){
-            sidVal = 6;
-            sideOp = 5;
-        }else if(key == 'F' || key == 'f'){
-            if((i==1 || ((j == 6|| j==7 || j==8) && (i==5 || i==6)) || ((j == 2|| j==5 || j==8) && (i==2 || i==4))) && (i != 3))
+            if (i== 5||((i==1||i==3)&&(j==6||j==7||j==8)) || ((i==2||i==4)&&(j==2||j==5||j==8)))
                 return true;
             else
                 return false;
-        }else if(key == 'B' || key == 'b'){
-            if((i==3 || ((j == 0|| j==3 || j==6) && (i==2 || i==4)) || ((j == 0|| j==1 || j==2) && (i==5 || i==6))) && (i != 1))
+        }else if(key == 'D' || key == 'd'){
+            if (i== 6||((i==1||i==3)&&(j==0||j==1||j==2)) || ((i==2||i==4)&&(j==0||j==3||j==6)))
                 return true;
-            else 
+            else
                 return false;
+        }else if(key == 'F' || key == 'f'){
+            sidVal = 1;
+            sideOp = 3;
+        }else if(key == 'B' || key == 'b'){
+            sidVal = 3;
+            sideOp = 1;
         }
 
         if((i == sidVal || side[sidVal][0] == j || side[sidVal][1] == j || side[sidVal][2] == j) && i != sideOp)
@@ -307,7 +331,7 @@ void keyAction(char inp){
             setSpin('z', 0);
             break;
         case '+':
-            if(zoom<1.25)
+            if(zoom<1.1)
                 zoom += 0.01;
             glutPostRedisplay();
             break;

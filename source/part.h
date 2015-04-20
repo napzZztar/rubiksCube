@@ -2,15 +2,13 @@
 #ifndef PART_H
 #define PART_H
 
-#define red glColor4f(1.0, 0.0, 0.0, 0.0); 
-#define green glColor4f(0.0, 1.0, 0.0, 0.0); 
-#define blue glColor4f(0.0, 0.0, 1.0, 0.0); 
-#define orange glColor4f(1.0, 0.5, 0.0, 0.0); 
-#define yellow glColor4f(1.0, 1.0, 0.0, 0.0); 
-#define white glColor4f(1.0, 1.0, 1.0, 1.0); 
+#define red glColor4f(1.0    , 0.0 , 0.0 , 0.0);
+#define green glColor4f(0.0  , 1.0 , 0.0 , 0.0);
+#define blue glColor4f(0.0   , 0.0 , 1.0 , 0.0);
+#define orange glColor4f(1.0 , 0.5 , 0.0 , 0.0);
+#define yellow glColor4f(1.0 , 1.0 , 0.0 , 0.0);
+#define white glColor4f(1.0  , 1.0 , 1.0 , 1.0);
 
-void mouseClick(int button, int state, int x, int y);
-void keyPress(unsigned char key, int x, int y);
 void room();
 void lamp();
 
@@ -26,12 +24,18 @@ class part{
 
     float lower_x;
     float lower_y;
+    float lower_z;
     float upper_x;
     float upper_y;
+    float upper_z;
 
     public: 
     void init(int p, int ps);
     void plot();
+    void rotate(int ang,char axis);
+    // void rotateAxis(int a, int b, int c,int m, bool inv);
+    void rotatePoint(int ang, char axis, bool se);
+    void mulMat();
 
 };
 
