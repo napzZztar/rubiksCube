@@ -1,6 +1,7 @@
 #include <iterator>
 #include <cmath>
 #include "part.h"
+#include <iostream>
 
 using namespace std;
 
@@ -18,23 +19,23 @@ void DrawSquare(int x, int y){
 }
 
 void part::plot(){
-    switch (plane) {
-        case 1:
+    switch (color) {
+        case 'r':
             red;
             break;
-        case 2:
+        case 'y':
             yellow;
             break;
-        case 3:
+        case 'o':
             orange
                 break;
-        case 4:
+        case 'w':
             white
                 break;
-        case 5:
+        case 'b':
             blue;
             break;
-        case 6:
+        case 'g':
             green;
             break;
     }
@@ -46,14 +47,15 @@ void part::plot(){
         glVertex3f(lower_x, upper_y, upper_z);
         glVertex3f(lower_x, upper_y, lower_z);
         glEnd();
+    }else{
+        glBegin(GL_QUADS);
+        glVertex3f(lower_x, upper_y, lower_z);
+        glVertex3f(upper_x, upper_y, lower_z);
+        glVertex3f(upper_x, lower_y, upper_z);
+        glVertex3f(lower_x, lower_y, upper_z);
+        glEnd();
     }
 
-    glBegin(GL_QUADS);
-    glVertex3f(lower_x, upper_y, lower_z);
-    glVertex3f(upper_x, upper_y, lower_z);
-    glVertex3f(upper_x, lower_y, upper_z);
-    glVertex3f(lower_x, lower_y, upper_z);
-    glEnd();
 }
 
 void part::init(int p, int ps){
@@ -62,10 +64,12 @@ void part::init(int p, int ps){
     if(plane==1 || plane==3){
         upper_z = 1.5;
         lower_z = 1.5;
+        color = 'r';
 
         if (plane == 3){ //if it's the orange side
             upper_z = -1.5;
             lower_z = -1.5;
+            color = 'o';
         }
 
         lower_x = xNy[ps][0][0];
@@ -76,10 +80,12 @@ void part::init(int p, int ps){
     }else if (plane==2 || plane==4) {
         lower_x = 1.5;
         upper_x = 1.5;
+        color = 'y';
 
         if(plane == 4){ //white layer
             lower_x = -1.5;
             upper_x = -1.5;
+            color = 'w';
         }
 
         lower_y = xNy[ps][0][0];
@@ -90,10 +96,12 @@ void part::init(int p, int ps){
     }else if (plane==5 || plane==6) {
         lower_y = 1.5;
         upper_y = 1.5;
+        color = 'b';
 
         if (plane == 6) {//green layer
             lower_y = -1.5;
             upper_y = -1.5;
+            color = 'g';
         }
 
         lower_x = xNy[ps][0][0];
@@ -108,49 +116,77 @@ void part::rotate(int ang, char ax){
     int plnSq[7] = {0,1,6,3,5,2,4};
     rotatePoint(ang, ax, 0);
     rotatePoint(ang, ax, 1);
-    plane = plnSq[plane];
+    // plane = plnSq[plane];
+}
+
+void part::print(){
+    cout<<lower_x<<endl;
+    cout<<lower_y<<endl;
+    cout<<lower_z<<endl;
+    cout<<upper_x<<endl;
+    cout<<upper_y<<endl;
+    cout<<upper_z<<endl<<endl;
 }
 
 void part::rotatePoint(int ang, char axis, bool se){
     float r;
     float th1;
-    float x = lower_x;
-    float y = lower_y;
-    float z = lower_z;
-
-    if (se) {
-        x = upper_x;       
-        y = upper_y;
-        z = upper_z;
-    }
+    float x2 = lower_x;
+    float y2 = lower_y;
+    float z2 = lower_z;
+    float x1 = upper_x;
+    float y1 = upper_y;
+    float z1 = upper_z;
 
     if (axis =='z') {
-        r = sqrt(pow(x, 2) + pow(y, 2));
-        th1 = (atan(y/x)*180) / 3.14159f;
+        r = sqrt(pow(x1, 2) + pow(y1, 2));
+        th1 = (atan(y1/x1)*180) / 3.14;
 
-        x = r * cos((ang+th1)*3.14159f/180.0f);
-        y = r * sin((ang+th1)*3.14159f/180.0f);
+        y1 = r * cos((ang+th1)*3.14/180);
+        x1 = r * sin((ang+th1)*3.14/180);
+
+        r = sqrt(pow(x2, 2) + pow(y2, 2));
+        th1 = (atan(y2/x2)*180) / 3.14;
+
+        x2 = r * cos((ang+th1)*3.14/180);
+        y2 = r * sin((ang+th1)*3.14/180);
+
         // x = x*cos(ang) - y*sin(ang);
         // y = x*sin(ang) + y*cos(ang);
 
-    }else if (axis == 'y') {
-        y = y*cos(ang) - z*sin(ang);
-        z = y*sin(ang) + z*cos(ang);
-
-    }else if (axis == 'x') {
-        z = z*cos(ang) - x*sin(ang);
-        x = z*sin(ang) + x*cos(ang);
     }
+    // }else if (axis == 'y') {
+    //     y = y*cos(ang) - z*sin(ang);
+    //     z = y*sin(ang) + z*cos(ang);
+    //
+    // }else if (axis == 'x') {
+    //     z = z*cos(ang) - x*sin(ang);
+    //     x = z*sin(ang) + x*cos(ang);
+    // }
+
+    lower_x = x1;
+    lower_y = y1;
+    lower_z = z1;
+    upper_x = x2;
+    upper_y = y2;
+    upper_z = z2;
+}
+
+void matMul(){
+    float a[2][2];
+    float b[2][2];
+    float c[2][2];
 
 
-    if (se) {
-        upper_x = x;       
-        upper_y = y;
-        upper_z = z;
-    }else{
-        lower_x = x;
-        lower_y = y;
-        lower_z = z;
+    for(int m=0;m<2;m++) {
+        for(int n=0;n<1;n++) {
+            int temp = 0;
+            for(int i=0;i<2;i++) {
+                temp = temp + a[m][i]*b[i][n];
+
+            }
+            c[m][n] = temp;
+        }
     }
 }
 

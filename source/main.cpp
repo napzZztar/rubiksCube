@@ -58,6 +58,9 @@ int main(int argc, char** argv){
     glutKeyboardFunc(keyPress);
 
     init();
+    cube[6][8].print();
+    cube[6][8].rotate(90, 'z');
+    cube[6][8].print();
     glutMainLoop();
     glutSwapBuffers();
 
@@ -110,8 +113,8 @@ void myDisplay(void){
     glScalef(zoom, zoom, zoom);
     glTranslatef(0, zoom+0.5, 0);
 
-    for (int i = 1; i < 7; i++) {
-        for (int j = 0; j < 9; j++) {
+    for (int i = 6; i < 7; i++) {
+        for (int j = 8; j < 9; j++) {
             if (selectParts(i, j)){ //returns if rotating this part is necessary
                 glPushMatrix();
                 glRotatef(spin, spin_x, spin_y, spin_z);
@@ -172,10 +175,10 @@ void spinAntiClock(void){
 }
 
 void initCube(){
-    for (int i = 1; i < 7; i++) {
+    for (int i = 0; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
             cube[i][j].init(i, j);
-            cube[i][j].rotate(90, 'z');
+            // cube[i][j].rotate(90, 'z');
         }
     }
 

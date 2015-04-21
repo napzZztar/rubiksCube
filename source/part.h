@@ -28,8 +28,10 @@ class part{
     float upper_x;
     float upper_y;
     float upper_z;
+    char color;
 
     public: 
+    void print();
     void init(int p, int ps);
     void plot();
     void rotate(int ang,char axis);
