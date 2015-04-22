@@ -81,7 +81,6 @@ void part::init(int p, int ps){
         lower_x = 1.5;
         upper_x = 1.5;
         color = 'y';
-
         if(plane == 4){ //white layer
             lower_x = -1.5;
             upper_x = -1.5;
