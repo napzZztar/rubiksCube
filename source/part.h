@@ -35,7 +35,6 @@ class part{
     void init(int p, int ps);
     void plot();
     void rotate(int ang,char axis);
-    // void rotateAxis(int a, int b, int c,int m, bool inv);
     void rotatePoint(int ang, char axis, bool se);
     void mulMat();
 
