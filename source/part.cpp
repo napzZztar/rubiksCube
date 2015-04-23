@@ -174,20 +174,20 @@ void room(){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-    glBegin(GL_QUADS);
+    glBegin(GL_QUADS); //floor
     glNormal3f(0.0, 0.0f, 1.0f);
-    glTexCoord2d(0, 0);
-    glVertex3f(-8 , -2 , -8);
-    glTexCoord2d(16, 0);
-    glVertex3f(8  , -2 , -8);
-    glTexCoord2d(16, 16);
-    glVertex3f(8  , -2 , 8);
     glTexCoord2d(0, 16);
+    glVertex3f(-8 , -2 , -8);
+    glTexCoord2d(16, 16);
+    glVertex3f(8  , -2 , -8);
+    glTexCoord2d(16, 0);
+    glVertex3f(8  , -2 , 8);
+    glTexCoord2d(0, 0);
     glVertex3f(-8 , -2 , 8);
     glEnd();
 
-    glColor3f(0.345f, 0.4314f, 0.4588f);
-    glBegin(GL_POLYGON);
+    glColor3f(1.0, 1.0, 1.0);
+    glBegin(GL_POLYGON); //back wall
     glColor3f(0.172f, 0.2154f, 0.2294f);
     glColor3f(0.2, 0.2, 0.2);
     glVertex3f(8.0  , -2.0 , -8.0);
@@ -197,7 +197,8 @@ void room(){
     glColor3f(0.172f, 0.2154f, 0.2294f);
     glVertex3f(-8.0 , -2.0 , -8.0);
     glEnd();
-    glBegin(GL_POLYGON);
+
+    glBegin(GL_POLYGON); //right wall
     glColor3f(0.172f, 0.2154f, 0.2294f);
     glVertex3f(8.0  , -2.0 , -8.0);
     glColor3f(0.345f, 0.4314f, 0.4588f);
@@ -206,15 +207,14 @@ void room(){
     glVertex3f(8.0  , 4.0  , -8.0);
     glEnd();
 
-    glBegin(GL_POLYGON);
+    glBegin(GL_POLYGON); //roof
     glVertex3f(8.0  , 4.0 , 8.0);
     glVertex3f(-8.0 , 4.0 , 8.0);
     glVertex3f(-8.0 , 4.0 , -8.0);
     glVertex3f(8.0  , 4.0 , -8.0);
-
     glEnd();
 
-    glBegin(GL_POLYGON);
+    glBegin(GL_POLYGON); //laft wall
     glVertex3f(-8.0 , 4.0  , 8.0);
     glVertex3f(-8.0 , -2.0 , 8.0);
     glColor3f(0.1f, 0.2f, 0.2f);
