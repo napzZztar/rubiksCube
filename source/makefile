@@ -1,3 +1,3 @@
 all:
-	g++ main.cpp part.cpp -o main -lGL -lGLU -lGLEW -lglut -lm
+	g++ main.cpp part.cpp imageloader.cpp -o main -lGL -lGLU -lGLEW -lglut -lm
 	./main
