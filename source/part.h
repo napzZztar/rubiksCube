@@ -1,4 +1,6 @@
 #include <GL/glut.h>
+#include "imageloader.h"
+
 #ifndef PART_H
 #define PART_H
 
@@ -9,8 +11,10 @@
 #define yellow glColor4f(1.0 , 1.0 , 0.0 , 0.0);
 #define white glColor4f(1.0  , 1.0 , 1.0 , 1.0);
 
+
 void room();
 void lamp();
+GLint loadTexture(Image *image);
 
 class part{
     int plane; // 1 = red

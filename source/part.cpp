@@ -1,9 +1,29 @@
 #include <iterator>
 #include <cmath>
-#include "part.h"
 #include <iostream>
+#include "part.h"
+#include "imageloader.h"
 
 using namespace std;
+
+GLuint _textureId; //The id of the texture
+
+GLint loadTexture(Image* image) {
+    GLuint textureId;
+    glGenTextures(1, &textureId); //Make room for our texture
+    glBindTexture(GL_TEXTURE_2D, textureId); //Tell OpenGL which texture to edit
+    //Map the image to the texture
+    glTexImage2D(GL_TEXTURE_2D,                //Always GL_TEXTURE_2D
+            0,                            //0 for now
+            GL_RGB,                       //Format OpenGL uses for image
+            image->width, image->height,  //Width and height
+            0,                            //The border of the image
+            GL_RGB, //GL_RGB, because pixels are stored in RGB format
+            GL_UNSIGNED_BYTE, //GL_UNSIGNED_BYTE, because pixels are stored
+            //as unsigned numbers
+            image->pixels);               //The actual pixel data
+    return textureId; //Returns the id of the texture
+}
 
 void DrawSquare(int x, int y){
     glBegin(GL_QUADS);
@@ -121,27 +141,50 @@ void part::print(){
 }
 
 void room(){
+    Image* image = loadBMP("./tile.bmp");
+    _textureId = loadTexture(image);
+    delete image;
+
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, _textureId);
+
     glPushMatrix();
     glTranslatef(0,0,-1.5);
     glRotatef(10, 0,1,0);
 
-    for (int i = -8; i <8; i++) {     //along X axis
-        for (int j=-8; j <8; j++) {   //along Y axis
-            if( (i+j) %2 ==0){
-                glColor3f(0, 0, 0);
-                DrawSquare(i,j);
-            }else{
-                glColor3f(0.6, 0.8, 1);
-                glBegin(GL_QUADS);
-                glVertex3f(i  , -2, j  );
-                glVertex3f(i  , -2, j+1);
-                glVertex3f(i+1, -2, j+1);
-                glVertex3f(i+1, -2, j  );
-                glEnd();
-            }
+    // for (int i = -8; i <8; i++) {     //along X axis
+    //     for (int j=-8; j <8; j++) {   //along Y axis
+    //         if( (i+j) %2 ==0){
+    //             glColor3f(0, 0, 0);
+    //             DrawSquare(i,j);
+    //         }else{
+    //             glColor3f(0.6, 0.8, 1);
+    //             glBegin(GL_QUADS);
+    //             glVertex3f(i  , -2, j  );
+    //             glVertex3f(i  , -2, j+1);
+    //             glVertex3f(i+1, -2, j+1);
+    //             glVertex3f(i+1, -2, j  );
+    //             glEnd();
+    //         }
+    //
+    //     }
+    // }
 
-        }
-    }
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glBegin(GL_QUADS);
+    glNormal3f(0.0, 0.0f, 1.0f);
+    glTexCoord2d(0, 0);
+    glVertex3f(-8 , -2 , -8);
+    glTexCoord2d(16, 0);
+    glVertex3f(8  , -2 , -8);
+    glTexCoord2d(16, 16);
+    glVertex3f(8  , -2 , 8);
+    glTexCoord2d(0, 16);
+    glVertex3f(-8 , -2 , 8);
+    glEnd();
 
     glColor3f(0.345f, 0.4314f, 0.4588f);
     glBegin(GL_POLYGON);

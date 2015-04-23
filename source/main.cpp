@@ -67,7 +67,7 @@ int main(int argc, char** argv){
 void init(){ //magic don't touch 
     GLfloat mat_specular[]   = { 0.0f, 0.0f, 0.0f, 1.0f };
     GLfloat mat_shininess[]  = {10.0};
-    GLfloat light_color[]    = { 1.0f, 0.9551f, 0.6777f, 0.0f }; //Tunglten 100W
+    GLfloat light_color[]    = { 1.0f, 1.0f, 1.0f, 0.0f }; //Tunglten 100W
     glClearColor(0, 0, 0, 0);
     glShadeModel(GL_SMOOTH);
     glClearDepth(1.0f);
@@ -77,6 +77,7 @@ void init(){ //magic don't touch
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_COLOR_MATERIAL); //light with the material color
     glEnable(GL_NORMALIZE); //light intencity or reflection (need to research)
+    glEnable(GL_TEXTURE_2D);
 
     glPushMatrix();
 
@@ -93,6 +94,7 @@ void init(){ //magic don't touch
     glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 45.0f);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color);
     glPopMatrix();
+
 }
 
 void myDisplay(void){
