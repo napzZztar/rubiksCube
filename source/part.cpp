@@ -141,7 +141,7 @@ void part::print(){
 }
 
 void room(){
-    Image* image = loadBMP("./tile.bmp");
+    Image* image = loadBMP("../img/tile.bmp");
     _textureId = loadTexture(image);
     delete image;
 
@@ -176,11 +176,11 @@ void room(){
 
     glBegin(GL_QUADS); //floor
     glNormal3f(0.0, 0.0f, 1.0f);
-    glTexCoord2d(0, 16);
+    glTexCoord2d(0, 8);
     glVertex3f(-8 , -2 , -8);
-    glTexCoord2d(16, 16);
+    glTexCoord2d(8, 8);
     glVertex3f(8  , -2 , -8);
-    glTexCoord2d(16, 0);
+    glTexCoord2d(8, 0);
     glVertex3f(8  , -2 , 8);
     glTexCoord2d(0, 0);
     glVertex3f(-8 , -2 , 8);
