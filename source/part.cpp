@@ -174,6 +174,8 @@ void room(){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
+
+    glColor3f(0.5f, 0.4f, 0.5f);
     glBegin(GL_QUADS); //floor
     glNormal3f(0.0, 0.0f, 1.0f);
     glTexCoord2d(0, 8);

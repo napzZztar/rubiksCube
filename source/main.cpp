@@ -113,7 +113,7 @@ void myDisplay(void){
     glTranslatef(0, zoom+0.5, 0);
 
     for (int i = 0; i < 7; i++) {
-        for (int j = 0; j < 9; j++) {
+        for (int j = 0; j < 3; j++) {
             if (selectParts(i, j)){ //returns if rotating this part is necessary
                 glPushMatrix();
                 glRotatef(spin, spin_x, spin_y, spin_z);
