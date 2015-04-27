@@ -31,6 +31,7 @@ void spinColck(void);
 void spinAntiClock(void);
 void keyPress(void);
 void keyPress(unsigned char inp, int x, int y);
+void specialKeyPress(int inp, int x, int y);
 void keyAction(char inp);
 void setSpin(char ax, int dir);
 bool selectParts(int i, int j);
@@ -45,6 +46,7 @@ int main(int argc, char** argv){
     glutDisplayFunc(myDisplay);
     // glutIdleFunc(spinColck);
     glutKeyboardFunc(keyPress);
+    glutSpecialFunc(specialKeyPress);
 
     init();
     glutMainLoop();
@@ -95,13 +97,13 @@ void myDisplay(void){
 
     // glScalef(0.15, 0.2667, 0.15); //too big??
 
-    glRotatef(tilt.angle, tilt.x, tilt.y, tilt.z);
+    glRotatef(10, 1, -0.5, 0);
     lamp();
     room();
 
     glScalef(zoom, zoom, zoom);
     glTranslatef(0, zoom, -2);
-    glRotatef(15, 1, -1, 0);
+    glRotatef(tilt.angle, tilt.x, tilt.y, tilt.z);
 
     for (int i = 1; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
@@ -166,8 +168,8 @@ void spinAntiClock(void){
 
 void initCube(){
     tilt.angle = 10;
-    tilt.x = 1;
-    tilt.y = -0.5;
+    tilt.x = 1.0;
+    tilt.y = -1.0;
     tilt.z = 0.0;
 
     for (int i = 0; i < 7; i++) {
@@ -202,6 +204,29 @@ void keyPress(unsigned char inp, int x, int y){
         default:
             keyAction(inp);
     }
+}
+
+void specialKeyPress(int inp, int x, int y){
+    switch (inp) {
+        case GLUT_KEY_UP:
+            tilt.angle = 10;
+            tilt.x = 1.0;
+            break;
+        case GLUT_KEY_DOWN:
+            tilt.angle = 25;
+            tilt.x = -1.0;
+            break;
+        case GLUT_KEY_LEFT:
+            tilt.angle = 25;
+            tilt.y = 1.0;
+            break;
+        case GLUT_KEY_RIGHT:
+            tilt.angle = 10;
+            tilt.y = -1.0;
+            break;
+    }
+
+    glutPostRedisplay();
 }
 
 void setSpin(char ax, int dir){
