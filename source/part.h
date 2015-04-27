@@ -46,11 +46,11 @@ class part{
 };
 
 struct rotate{
-    int angle;
-    int x;
-    int y;
-    int z;
-}
+    float angle;
+    float x;
+    float y;
+    float z;
+};
 
 #endif
 

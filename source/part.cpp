@@ -8,6 +8,18 @@ using namespace std;
 
 GLuint _textureId; //The id of the texture
 
+const float part::xNy[9][2][2] = {
+    {{-1.5 , -1.5} , {-0.52 , -0.52}} ,
+    {{-0.5 , -1.5} , {0.48  , -0.52}} ,
+    {{0.5  , -1.5} , {1.48  , -0.52}} ,
+    {{-1.5 , -0.5} , {-0.52 , 0.48 }} ,
+    {{-0.5 , -0.5} , {0.48  , 0.48 }} ,
+    {{0.5  , -0.5} , {1.48  , 0.48 }} ,
+    {{-1.5 , 0.5}  , {-0.52 , 1.48 }} ,
+    {{-0.5 , 0.5}  , {0.48  , 1.48 }} ,
+    {{0.5  , 0.5}  , {1.48  , 1.48 }} ,
+};
+
 GLint loadTexture(Image* image) {
     GLuint textureId;
     glGenTextures(1, &textureId); //Make room for our texture

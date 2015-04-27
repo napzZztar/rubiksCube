@@ -1,26 +1,18 @@
+#include <queue>
 #include <iostream>
 #include <GL/glut.h>
 #include "part.h"
 
 using namespace std;
 
-const float part::xNy[9][2][2] = {
-    {{-1.5 , -1.5} , {-0.52 , -0.52}} ,
-    {{-0.5 , -1.5} , {0.48  , -0.52}} ,
-    {{0.5  , -1.5} , {1.48  , -0.52}} ,
-    {{-1.5 , -0.5} , {-0.52 , 0.48 }} ,
-    {{-0.5 , -0.5} , {0.48  , 0.48 }} ,
-    {{0.5  , -0.5} , {1.48  , 0.48 }} ,
-    {{-1.5 , 0.5}  , {-0.52 , 1.48 }} ,
-    {{-0.5 , 0.5}  , {0.48  , 1.48 }} ,
-    {{0.5  , 0.5}  , {1.48  , 1.48 }} ,
-};
-
 int side[7][3] = {{0}, {6,7,8}, {2,5,8}, {0,1,2}, {0,3,6}, {6,7,8}, {0,1,2}};
 
 part cube[7][9];
 
-static GLfloat spin       = 0.0;
+rotate tilt;
+rotate mov;
+
+
 static GLfloat spin_speed = 9.0;
 GLfloat light_position[] = { -5.0, 3.0, -9.0, 1.0 };
 GLfloat spot_direction[] = { 0.0, 0.0, -8.5 };
@@ -30,9 +22,6 @@ int key    = '5';
 float lAng = 0;
 
 float rate   = 1.0;
-float spin_x = 1;
-float spin_y = 0;
-float spin_z = 0;
 float zoom = 0.9;
 
 void init();
@@ -103,7 +92,7 @@ void myDisplay(void){
 
     gluPerspective(40, (1280.0f/720.0f), 2.0f, 100);
     glTranslatef(0, 0, -12.0);
-    glRotatef(25, 0.01, -0.01, 0.0001);
+    glRotatef(tilt.angle, tilt.x, tilt.y, tilt.z);
     // glScalef(0.15, 0.2667, 0.15); //too big??
 
     lamp();
@@ -112,11 +101,11 @@ void myDisplay(void){
     glScalef(zoom, zoom, zoom);
     glTranslatef(0, zoom+0.5, 0);
 
-    for (int i = 0; i < 7; i++) {
-        for (int j = 0; j < 3; j++) {
+    for (int i = 1; i < 7; i++) {
+        for (int j = 0; j < 9; j++) {
             if (selectParts(i, j)){ //returns if rotating this part is necessary
                 glPushMatrix();
-                glRotatef(spin, spin_x, spin_y, spin_z);
+                glRotatef(mov.angle , mov.x, mov.y, mov.z);
                 cube[i][j].plot();
                 glPopMatrix();
             }
@@ -131,17 +120,17 @@ void myDisplay(void){
 
 void spinColck(void){
     if(spin_speed > 0.5){
-        if(spin > 70){
+        if(mov.angle > 70){
             spin_speed -= rate;
             rate += 0.5;
         }
     }else
         spin_speed = 0.5;
 
-    if(spin < 90)
-        spin += spin_speed;
+    if(mov.angle < 90)
+        mov.angle += spin_speed;
     else{
-        spin = 90;
+        mov.angle = 90;
         // key = '5';
         // cs = 0;
         glutIdleFunc(NULL);
@@ -153,17 +142,17 @@ void spinColck(void){
 
 void spinAntiClock(void){
     if(spin_speed > 0.5){
-        if(spin < -70){
+        if(mov.angle < -70){
             spin_speed -= rate;
             rate += 0.5;
         }
     }else
         spin_speed = 0.5;
 
-    if(spin > -90)
-        spin -= spin_speed;
+    if(mov.angle > -90)
+        mov.angle -= spin_speed;
     else{
-        spin = -90;
+        mov.angle = -90;
         // cs = 0;
         // key = '5';
         glutIdleFunc(NULL);
@@ -174,6 +163,11 @@ void spinAntiClock(void){
 }
 
 void initCube(){
+    tilt.angle = 20;
+    tilt.x = 1;
+    tilt.y = -0.5;
+    tilt.z = 0.0;
+
     for (int i = 0; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
             cube[i][j].init(i, j);
@@ -209,19 +203,20 @@ void keyPress(unsigned char inp, int x, int y){
 }
 
 void setSpin(char ax, int dir){
-    glutKeyboardFunc(NULL); spin_x = 0;
-    spin_y = 0;
-    spin_z = 0;
+    glutKeyboardFunc(NULL); 
+    mov.x = 0;
+    mov.y = 0;
+    mov.z = 0;
 
     switch (ax) {
         case 'x':
-            spin_x = 1;
+            mov.x = 1;
             break;
         case 'y':
-            spin_y = 1;
+            mov.y = 1;
             break;
         case 'z':
-            spin_z = 1;
+            mov.z = 1;
             break;
     }
 
@@ -230,7 +225,7 @@ void setSpin(char ax, int dir){
     else
         glutIdleFunc(spinAntiClock);
 
-    spin       = 0.0;
+    mov.angle = 0.0;
     rate       = 1.0;
     spin_speed = 9;
 }
