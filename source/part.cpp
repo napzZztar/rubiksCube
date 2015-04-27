@@ -79,8 +79,26 @@ void part::plot(){
         glVertex3f(lower_x, upper_y, upper_z);
         glVertex3f(lower_x, upper_y, lower_z);
         glEnd();
+
+        glColor3f(0.0, 0.0, 0.0);
+        glLineWidth(2);
+        glBegin(GL_LINE_LOOP);
+        glVertex3f(lower_x, lower_y, lower_z);
+        glVertex3f(lower_x, lower_y, upper_z);
+        glVertex3f(lower_x, upper_y, upper_z);
+        glVertex3f(lower_x, upper_y, lower_z);
+        glEnd();
     }else{
         glBegin(GL_QUADS);
+        glVertex3f(lower_x, upper_y, lower_z);
+        glVertex3f(upper_x, upper_y, lower_z);
+        glVertex3f(upper_x, lower_y, upper_z);
+        glVertex3f(lower_x, lower_y, upper_z);
+        glEnd();
+
+        glColor3f(0.0, 0.0, 0.0);
+        glLineWidth(2);
+        glBegin(GL_LINE_LOOP);
         glVertex3f(lower_x, upper_y, lower_z);
         glVertex3f(upper_x, upper_y, lower_z);
         glVertex3f(upper_x, lower_y, upper_z);
@@ -187,53 +205,63 @@ void room(){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 
-    glColor3f(0.5f, 0.4f, 0.5f);
     glBegin(GL_QUADS); //floor
     glNormal3f(0.0, 0.0f, 1.0f);
     glTexCoord2d(0, 8);
+    glColor3f(0.4f, 0.4f, 0.4f);
     glVertex3f(-8 , -2 , -8);
     glTexCoord2d(8, 8);
+    glColor3f(0.4f, 0.4f, 0.4f);
     glVertex3f(8  , -2 , -8);
     glTexCoord2d(8, 0);
+    glColor3f(0.5f, 0.5f, 0.5f);
     glVertex3f(8  , -2 , 8);
     glTexCoord2d(0, 0);
+    glColor3f(0.5f, 0.5f, 0.5f);
     glVertex3f(-8 , -2 , 8);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(0.1765f, 0.16471f, 0.7725f);
     glBegin(GL_POLYGON); //back wall
-    glColor3f(0.172f, 0.2154f, 0.2294f);
-    glColor3f(0.2, 0.2, 0.2);
+    glColor3f(0.0565f, 0.04471f, 0.4725f);
     glVertex3f(8.0  , -2.0 , -8.0);
-    glColor3f(0.345f, 0.4314f, 0.4588f);
+    glColor3f(0.1765f, 0.16471f, 0.7725f);
     glVertex3f(8.0  , 4.0  , -8.0);
+    glColor3f(0.1765f, 0.16471f, 0.7725f);
     glVertex3f(-8.0 , 4.0  , -8.0);
-    glColor3f(0.172f, 0.2154f, 0.2294f);
+    glColor3f(0.0765f, 0.06471f, 0.6725f);
     glVertex3f(-8.0 , -2.0 , -8.0);
     glEnd();
 
     glBegin(GL_POLYGON); //right wall
-    glColor3f(0.172f, 0.2154f, 0.2294f);
+    glColor3f(0.0555f, 0.04371f, 0.4625f);
     glVertex3f(8.0  , -2.0 , -8.0);
-    glColor3f(0.345f, 0.4314f, 0.4588f);
+    glColor3f(0.1765f, 0.16471f, 0.7725f);
     glVertex3f(8.0  , -2.0 , 8.0);
+    glColor3f(0.1765f, 0.16471f, 0.7725f);
     glVertex3f(8.0  , 4.0  , 8.0);
+    glColor3f(0.0765f, 0.06471f, 0.6725f);
     glVertex3f(8.0  , 4.0  , -8.0);
     glEnd();
 
+    glColor3f(1.0, 1.0, 1.0);
     glBegin(GL_POLYGON); //roof
     glVertex3f(8.0  , 4.0 , 8.0);
     glVertex3f(-8.0 , 4.0 , 8.0);
+    glColor3f(0.8765f, 0.86471f, 1.0f);
     glVertex3f(-8.0 , 4.0 , -8.0);
+    glColor3f(0.8765f, 0.86471f, 1.0f);
     glVertex3f(8.0  , 4.0 , -8.0);
     glEnd();
 
     glBegin(GL_POLYGON); //laft wall
+    glColor3f(0.1765f, 0.16471f, 0.7725f);
     glVertex3f(-8.0 , 4.0  , 8.0);
+    glColor3f(0.1765f, 0.16471f, 0.7725f);
     glVertex3f(-8.0 , -2.0 , 8.0);
-    glColor3f(0.1f, 0.2f, 0.2f);
+    glColor3f(0.0555f, 0.04371f, 0.4625f);
     glVertex3f(-8.0 , -2.0 , -8.0);
-    glColor3f(0.345f, 0.4314f, 0.4588f);
+    glColor3f(0.1765f, 0.16471f, 0.7725f);
     glVertex3f(-8.0 , 4.0  , -8.0);
     glEnd();
 

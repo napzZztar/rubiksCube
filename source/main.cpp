@@ -55,7 +55,7 @@ int main(int argc, char** argv){
 
 void init(){ //magic don't touch 
     GLfloat mat_specular[]   = { 0.0f, 0.0f, 0.0f, 1.0f };
-    GLfloat mat_shininess[]  = {10.0};
+    GLfloat mat_shininess[]  = {90.0};
     GLfloat light_color[]    = { 1.0f, 1.0f, 1.0f, 0.0f }; //Tunglten 100W
     glClearColor(0, 0, 0, 0);
     glShadeModel(GL_SMOOTH);
@@ -80,7 +80,7 @@ void init(){ //magic don't touch
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
-    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 45.0f);
+    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 180.0f);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color);
     glPopMatrix();
 
@@ -91,15 +91,17 @@ void myDisplay(void){
     glLoadIdentity();
 
     gluPerspective(40, (1280.0f/720.0f), 2.0f, 100);
-    glTranslatef(0, 0, -12.0);
-    glRotatef(tilt.angle, tilt.x, tilt.y, tilt.z);
+    glTranslatef(0, 0, -11.0);
+
     // glScalef(0.15, 0.2667, 0.15); //too big??
 
+    glRotatef(tilt.angle, tilt.x, tilt.y, tilt.z);
     lamp();
     room();
 
     glScalef(zoom, zoom, zoom);
-    glTranslatef(0, zoom+0.5, 0);
+    glTranslatef(0, zoom, -2);
+    glRotatef(15, 1, -1, 0);
 
     for (int i = 1; i < 7; i++) {
         for (int j = 0; j < 9; j++) {
@@ -163,7 +165,7 @@ void spinAntiClock(void){
 }
 
 void initCube(){
-    tilt.angle = 20;
+    tilt.angle = 10;
     tilt.x = 1;
     tilt.y = -0.5;
     tilt.z = 0.0;
