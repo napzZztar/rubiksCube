@@ -12,10 +12,9 @@ part cube[7][9];
 rotate tilt;
 rotate mov;
 
-
 static GLfloat spin_speed = 9.0;
-GLfloat light_position[] = { -5.0, 3.0, -9.0, 1.0 };
-GLfloat spot_direction[] = { 0.0, 0.0, -8.5 };
+GLfloat light_position[] = { 0.0, 9.0, 0.0, 1.0 };
+GLfloat spot_direction[] = { -0.1, 0.0, -1.0 };
 
 int cs;
 int key    = '5';
@@ -76,13 +75,14 @@ void init(){ //magic don't touch
 
     gluPerspective(40, (1280.0f/720.0f), 0.1f, 100);
     glTranslatef(0, 0, -12.0);
+    glRotatef(0, 1, 0, 0);
 
     // glScalef(0.15, 0.2667, 0.15);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
-    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 180.0f);
+    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 45.0f);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color);
     glPopMatrix();
 
@@ -92,7 +92,7 @@ void myDisplay(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    gluPerspective(40, (1280.0f/720.0f), 2.0f, 100);
+    gluPerspective(40, (1280.0f/720.0f), 2.0f, 25);
     glTranslatef(0, 0, -11.0);
 
     // glScalef(0.15, 0.2667, 0.15); //too big??
@@ -228,6 +228,7 @@ void specialKeyPress(int inp, int x, int y){
 
     glutPostRedisplay();
 }
+
 
 void setSpin(char ax, int dir){
     glutKeyboardFunc(NULL); 

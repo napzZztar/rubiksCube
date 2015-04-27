@@ -208,16 +208,16 @@ void room(){
     glBegin(GL_QUADS); //floor
     glNormal3f(0.0, 0.0f, 1.0f);
     glTexCoord2d(0, 8);
-    glColor3f(0.4f, 0.4f, 0.4f);
+    glColor3f(0.3f, 0.3f, 0.3f);
     glVertex3f(-8 , -2 , -8);
     glTexCoord2d(8, 8);
-    glColor3f(0.4f, 0.4f, 0.4f);
+    glColor3f(0.3f, 0.3f, 0.2f);
     glVertex3f(8  , -2 , -8);
     glTexCoord2d(8, 0);
-    glColor3f(0.5f, 0.5f, 0.5f);
+    glColor3f(1.0f, 1.0f, 1.0f);
     glVertex3f(8  , -2 , 8);
     glTexCoord2d(0, 0);
-    glColor3f(0.5f, 0.5f, 0.5f);
+    glColor3f(1.0f, 1.0f, 1.0f);
     glVertex3f(-8 , -2 , 8);
     glEnd();
 
@@ -271,13 +271,12 @@ void room(){
 
 void lamp(){
     glPushMatrix();
-    glTranslatef(0.0, 3.6, -0.0);
+    glTranslatef(-1.5, 3.4, 0.0);
     glRotatef(265, 1.0, 0.0, 0.0);
     glColor4f(1.0,1.0,1.0, 1.0);
     glutSolidCone(0.3, 0.2, 50, 50);
     glColor4f(0.0,0.0,0.0, 1.0);
-    glutSolidCone(0.35, 0.25, 50, 50);
     glColor4f(1.0,1.0,1.0, 1.0);
-    glutWireCone(0.36, 0.26, 10, 5);
+    glutWireCone(0.36, 0.26, 15, 15);
     glPopMatrix();
 }
