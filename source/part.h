@@ -25,6 +25,7 @@ class part{
                // 6 = green
 
     static const float xNy[9][2][2];
+    static const unsigned int map[7];
 
     float lower_x;
     float lower_y;
@@ -43,6 +44,13 @@ class part{
     void mulMat();
 
 };
+
+struct rotate{
+    int angle;
+    int x;
+    int y;
+    int z;
+}
 
 #endif
 
