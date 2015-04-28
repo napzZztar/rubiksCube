@@ -278,5 +278,13 @@ void lamp(){
     glColor4f(0.0,0.0,0.0, 1.0);
     glColor4f(1.0,1.0,1.0, 1.0);
     glutWireCone(0.36, 0.26, 15, 15);
+
+    glLineWidth(5);
+    glBegin(GL_LINES);
+    glVertex3f(0.0, 0.0, 0.0);
+    glVertex3f(0.0, 0.0, 1.0);
+    glEnd();
+    
+
     glPopMatrix();
 }
