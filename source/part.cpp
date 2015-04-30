@@ -207,14 +207,14 @@ void room(){
 
     glBegin(GL_QUADS); //floor
     glNormal3f(0.0, 0.0f, 1.0f);
-    glTexCoord2d(0, 1);
-    glColor3f(0.3f, 0.3f, 0.3f);
-    glVertex3f(-8 , -2 , -8);
-    glTexCoord2d(8, 1);
-    glColor3f(0.3f, 0.3f, 0.2f);
-    glVertex3f(8  , -2 , -8);
-    glTexCoord2d(1, 0);
+    glTexCoord2d(0, 8);
     glColor3f(1.0f, 1.0f, 1.0f);
+    glVertex3f(-8 , -2 , -8);
+    glTexCoord2d(8, 8);
+    glColor3f(1.0f, 1.0f, 1.0f);
+    glVertex3f(8  , -2 , -8);
+    glTexCoord2d(8, 0);
+    glColor3f(0.3f, 0.3f, 0.2f);
     glVertex3f(8  , -2 , 8);
     glTexCoord2d(0, 0);
     glColor3f(1.0f, 1.0f, 1.0f);
