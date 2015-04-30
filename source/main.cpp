@@ -67,10 +67,8 @@ void init(){ //magic don't touch
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_COLOR_MATERIAL); //light with the material color
     glEnable(GL_NORMALIZE); //light intencity or reflection (need to research)
-    glEnable(GL_TEXTURE_2D);
 
     glPushMatrix();
-
     glLoadIdentity(); //setup light in a clean transformation
 
     gluPerspective(40, (1280.0f/720.0f), 0.1f, 100);
@@ -78,13 +76,15 @@ void init(){ //magic don't touch
     glRotatef(0, 1, 0, 0);
 
     // glScalef(0.15, 0.2667, 0.15);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
     glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 45.0f);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color);
     glPopMatrix();
+
+    glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color);
 
 }
 
