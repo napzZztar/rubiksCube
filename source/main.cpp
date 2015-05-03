@@ -13,8 +13,6 @@ rotate tilt;
 rotate mov;
 
 static GLfloat spin_speed = 9.0;
-GLfloat light_position[] = { 0.0, 9.0, 0.0, 1.0 };
-GLfloat spot_direction[] = { -0.1, 0.0, -1.0 };
 
 int cs;
 int key    = '5';
@@ -55,15 +53,22 @@ int main(int argc, char** argv){
 }
 
 void init(){ //magic don't touch 
-    GLfloat mat_specular[]   = { 0.0f, 0.0f, 0.0f, 1.0f };
-    GLfloat mat_shininess[]  = {90.0};
+    GLfloat mat_specular[]   = { 1.0f, 1.0f, 1.0f, 1.0f };
+    GLfloat mat_shininess[]  = {28.0};
     GLfloat light_color[]    = { 1.0f, 1.0f, 1.0f, 0.0f }; //Tunglten 100W
+    GLfloat ambientColor[] = {0.2f, 0.2f, 0.2f, 1.0f}; //Color (0.2, 0.2, 0.2)
+    GLfloat light_position[] = { 0.0, 9.0, 0.0, 1.0 };
+    GLfloat spot_direction[] = { -0.1, 0.0, -1.0 };
+    // GLfloat light_position1[] = { 0.0, 0.0, 0.0, 1.0 };
+    // GLfloat spot_direction1[] = { 0.0, -1.0, -2.0 };
+
     glClearColor(0, 0, 0, 0);
     glShadeModel(GL_SMOOTH);
     glClearDepth(1.0f);
 
     glEnable(GL_LIGHTING); //lol
     glEnable(GL_LIGHT0);
+    // glEnable(GL_LIGHT1);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_COLOR_MATERIAL); //light with the material color
     glEnable(GL_NORMALIZE); //light intencity or reflection (need to research)
@@ -79,8 +84,15 @@ void init(){ //magic don't touch
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
     glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 45.0f);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, light_color);
+
+    // glLightfv(GL_LIGHT1, GL_POSITION, light_position1);
+    // glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, spot_direction1);
+    // glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 80.0f);
+
     glPopMatrix();
 
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
     glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
@@ -90,6 +102,7 @@ void init(){ //magic don't touch
 
 void myDisplay(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
     gluPerspective(40, (1280.0f/720.0f), 2.0f, 25);
@@ -117,6 +130,9 @@ void myDisplay(void){
                 cube[i][j].plot();
         }
     }
+
+    // glColor3f(0.5, 0.5, 0.0);
+    // glutSolidSphere(1.5f, 40, 40);
 
     glFlush();
     glutSwapBuffers();
@@ -187,19 +203,15 @@ void keyPress(unsigned char inp, int x, int y){
             lAng++;
             glPushMatrix();
             glRotatef(lAng, 1, 0, 0);
-            glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-            glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
-            glutPostRedisplay();
             glPopMatrix();
+            glutPostRedisplay();
             break;
         case '2':
             lAng--;
             glPushMatrix();
             glRotatef(lAng, 1, 0, 0);
-            glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-            glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
-            glutPostRedisplay();
             glPopMatrix();
+            glutPostRedisplay();
             break;
         default:
             keyAction(inp);
